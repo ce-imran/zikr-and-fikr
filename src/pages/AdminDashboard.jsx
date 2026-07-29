@@ -62,26 +62,44 @@ export default function AdminDashboard({ authState, setAuthState }) {
     }
 
     setIsUploading(true);
-    const formData = new FormData();
-    formData.append('image', file);
+    
+    // Convert file to base64
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const base64String = reader.result.split(',')[1];
+        
+        const payload = {
+          imageBase64: base64String,
+          filename: file.name,
+          mimeType: file.type
+        };
 
-    try {
-      const res = await fetch('/api/users/update-dp', {
-        method: 'PUT',
-        body: formData
-      });
-      const data = await res.json();
-      if ((data.success || data.avatar_url || data.avatar) && (data.avatar_url || data.avatar)) {
-        const publicUrl = data.avatar_url || data.avatar;
-        setProfileAvatar(publicUrl);
-      } else {
-        setAvatarError(data.error || data.message || 'Failed to upload profile picture to Supabase Storage.');
+        const res = await fetch('/api/auth/update-dp', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if ((data.success || data.avatar_url || data.avatar) && (data.avatar_url || data.avatar)) {
+          const publicUrl = data.avatar_url || data.avatar;
+          setProfileAvatar(publicUrl);
+        } else {
+          setAvatarError(data.error || data.message || 'Failed to upload profile picture to Supabase Storage.');
+        }
+      } catch (err) {
+        setAvatarError('Error uploading profile picture file.');
+      } finally {
+        setIsUploading(false);
       }
-    } catch (err) {
-      setAvatarError('Error uploading profile picture file.');
-    } finally {
+    };
+    reader.onerror = () => {
+      setAvatarError('Error reading file.');
       setIsUploading(false);
-    }
+    };
+    reader.readAsDataURL(file);
   };
 
   const hasInitialized = React.useRef(false);
@@ -189,27 +207,44 @@ export default function AdminDashboard({ authState, setAuthState }) {
     const file = e.target.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     setUploadingImage(true);
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        setCoverImage(data.url);
-        setMessage({ type: 'success', text: 'Cover image uploaded successfully!' });
-      } else {
-        setMessage({ type: 'error', text: data.message || 'Image upload failed.' });
+    
+    // Convert file to base64
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const base64String = reader.result.split(',')[1];
+        const payload = {
+          imageBase64: base64String,
+          filename: file.name,
+          mimeType: file.type
+        };
+
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          setCoverImage(data.url);
+          setMessage({ type: 'success', text: 'Cover image uploaded successfully!' });
+        } else {
+          setMessage({ type: 'error', text: data.message || 'Image upload failed.' });
+        }
+      } catch (err) {
+        setMessage({ type: 'error', text: 'Error uploading image.' });
+      } finally {
+        setUploadingImage(false);
       }
-    } catch (err) {
-      setMessage({ type: 'error', text: 'Error uploading image.' });
-    } finally {
+    };
+    reader.onerror = () => {
+      setMessage({ type: 'error', text: 'Error reading file.' });
       setUploadingImage(false);
-    }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmitPost = async (e) => {

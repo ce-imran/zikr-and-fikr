@@ -1,18 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const { supabase } = require('../config/supabase');
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
-});
-
-// POST /api/upload - Handle image upload directly to Supabase Storage
-router.post('/', upload.single('image'), async (req, res) => {
+// POST /api/upload - Handle image upload directly to Supabase Storage via Base64 JSON
+router.post('/', express.json({ limit: '10mb' }), async (req, res) => {
   try {
-    const file = req.file;
-    if (!file) {
+    const { imageBase64, filename, mimeType } = req.body;
+    if (!imageBase64) {
       return res.status(400).json({ success: false, message: 'No file uploaded.' });
     }
 
@@ -20,14 +14,15 @@ router.post('/', upload.single('image'), async (req, res) => {
       return res.status(500).json({ success: false, message: 'Supabase client is not connected.' });
     }
 
-    const cleanFileName = file.originalname ? file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_') : 'image.jpg';
+    const cleanFileName = filename ? filename.replace(/[^a-zA-Z0-9.-]/g, '_') : 'image.jpg';
     const filePath = `uploads/${Date.now()}_${cleanFileName}`;
+    const buffer = Buffer.from(imageBase64, 'base64');
 
     const { data, error } = await supabase
       .storage
       .from('profile_pictures')
-      .upload(filePath, file.buffer, {
-        contentType: file.mimetype
+      .upload(filePath, buffer, {
+        contentType: mimeType || 'image/jpeg'
       });
 
     if (error) {
@@ -47,7 +42,7 @@ router.post('/', upload.single('image'), async (req, res) => {
       message: 'Image uploaded successfully!',
       url: publicUrl,
       publicUrl: publicUrl,
-      filename: file.originalname
+      filename: cleanFileName
     });
   } catch (err) {
     console.error('Upload Error:', err);

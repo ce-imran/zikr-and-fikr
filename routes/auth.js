@@ -163,12 +163,6 @@ router.post('/verify-secret', async (req, res) => {
   });
 });
 
-const multer = require('multer');
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
-});
-
 // POST & PUT /api/auth/profile & /api/users/profile - Save Profile Setup details strictly in Supabase
 const handleProfileUpdate = async (req, res) => {
   try {
@@ -290,14 +284,14 @@ const handleProfileUpdate = async (req, res) => {
   }
 };
 
-router.post('/profile', upload.single('image'), handleProfileUpdate);
-router.put('/profile', upload.single('image'), handleProfileUpdate);
+router.post('/profile', express.json(), handleProfileUpdate);
+router.put('/profile', express.json(), handleProfileUpdate);
 
 // PUT & POST /api/auth/update-dp & /api/users/avatar - Upload Custom Profile Picture directly to Supabase Storage
 const handleAvatarUpload = async (req, res) => {
   try {
-    const file = req.file;
-    if (!file) {
+    const { imageBase64, filename, mimeType } = req.body;
+    if (!imageBase64) {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
 
@@ -307,14 +301,16 @@ const handleAvatarUpload = async (req, res) => {
     }
 
     const userId = req.user?.id || req.user?._id || req.session?.adminUser?.id || req.session?.adminUser?._id || 'user';
-    const filePath = `avatars/${userId}_${Date.now()}_${file.originalname}`;
+    const cleanFileName = filename ? filename.replace(/[^a-zA-Z0-9.-]/g, '_') : 'image.jpg';
+    const filePath = `avatars/${userId}_${Date.now()}_${cleanFileName}`;
+    const buffer = Buffer.from(imageBase64, 'base64');
 
     // Upload buffer directly to Supabase Storage bucket 'profile_pictures'
     const { data, error } = await supabase
       .storage
       .from('profile_pictures')
-      .upload(filePath, file.buffer, {
-        contentType: file.mimetype
+      .upload(filePath, buffer, {
+        contentType: mimeType || 'image/jpeg'
       });
 
     if (error) {
@@ -361,10 +357,11 @@ const handleAvatarUpload = async (req, res) => {
   }
 };
 
-router.put('/update-dp', upload.single('image'), handleAvatarUpload);
-router.post('/update-dp', upload.single('image'), handleAvatarUpload);
-router.put('/avatar', upload.single('image'), handleAvatarUpload);
-router.post('/avatar', upload.single('image'), handleAvatarUpload);
+const express = require('express');
+router.put('/update-dp', express.json({ limit: '10mb' }), handleAvatarUpload);
+router.post('/update-dp', express.json({ limit: '10mb' }), handleAvatarUpload);
+router.put('/avatar', express.json({ limit: '10mb' }), handleAvatarUpload);
+router.post('/avatar', express.json({ limit: '10mb' }), handleAvatarUpload);
 
 // Google OAuth Login Trigger (Step 1)
 router.get('/google', (req, res, next) => {
