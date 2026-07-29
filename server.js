@@ -91,7 +91,16 @@ passport.deserializeUser(async (id, done) => {
 // 2. Google OAuth Strategy (Supabase PostgreSQL)
 const googleClientId = process.env.GOOGLE_CLIENT_ID || 'dummy_google_client_id';
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || 'dummy_google_client_secret';
-const googleCallbackURL = process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/api/auth/google/callback';
+
+// Use Vercel URL in production to prevent localhost redirects
+let googleCallbackURL = process.env.GOOGLE_CALLBACK_URL;
+if (!googleCallbackURL) {
+  if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+    googleCallbackURL = 'https://zikr-and-fikr.vercel.app/api/auth/google/callback';
+  } else {
+    googleCallbackURL = 'http://localhost:5000/api/auth/google/callback';
+  }
+}
 
 passport.use(new GoogleStrategy({
   clientID: googleClientId,
