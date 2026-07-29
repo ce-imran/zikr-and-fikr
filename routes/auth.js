@@ -357,7 +357,6 @@ const handleAvatarUpload = async (req, res) => {
   }
 };
 
-const express = require('express');
 router.put('/update-dp', express.json({ limit: '10mb' }), handleAvatarUpload);
 router.post('/update-dp', express.json({ limit: '10mb' }), handleAvatarUpload);
 router.put('/avatar', express.json({ limit: '10mb' }), handleAvatarUpload);
