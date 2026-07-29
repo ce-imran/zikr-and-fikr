@@ -211,8 +211,8 @@ function startServer() {
 
     app.listen(PORT, () => {
       console.log(`====================================================`);
-      console.log(`🕌 Islamic Daily Blog & CMS Application Active!`);
-      console.log(`🌐 Server URL: http://localhost:${PORT}`);
+      console.log(`🚀 Islamic Daily Blog & CMS Application Active!`);
+      console.log(`🌍 Server URL: http://localhost:${PORT}`);
       console.log(`🔑 Master Secret Key: ${process.env.ADMIN_SECRET_KEY || 'MasterKey2026#IslamicCMS'}`);
       console.log(`====================================================`);
     });
@@ -222,5 +222,7 @@ function startServer() {
   }
 }
 
-startServer();
 
+
+startServer();
+module.exports = app;
