@@ -389,13 +389,40 @@ export default function AdminDashboard({ authState, setAuthState }) {
       {/* MAIN CONTAINER */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
+        {/* POPUP NOTIFICATION MODAL */}
         {message.text && (
-          <div className={`p-4 rounded-xl text-sm flex items-start space-x-2 border ${message.type === 'success'
-              ? 'bg-emerald-950/80 border-emerald-800 text-emerald-300'
-              : 'bg-red-950/80 border-red-800 text-red-300'
-            }`}>
-            {message.type === 'success' ? <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" /> : <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />}
-            <span>{message.text}</span>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200">
+            <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-2xl shadow-2xl max-w-md w-full relative">
+              <button 
+                onClick={() => setMessage({ type: '', text: '' })}
+                className="absolute top-4 right-4 text-stone-400 hover:text-stone-200 bg-stone-800 hover:bg-stone-700 rounded-full p-1 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="flex flex-col items-center text-center space-y-4">
+                {message.type === 'success' ? (
+                  <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mb-2">
+                    <CheckCircle className="w-10 h-10" />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mb-2">
+                    <AlertCircle className="w-10 h-10" />
+                  </div>
+                )}
+                <h3 className={`text-xl font-bold ${message.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {message.type === 'success' ? 'Success!' : 'Error'}
+                </h3>
+                <p className="text-stone-300 text-sm leading-relaxed pb-4">
+                  {message.text}
+                </p>
+                <button 
+                  onClick={() => setMessage({ type: '', text: '' })}
+                  className="w-full bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-stone-200 font-semibold py-2.5 rounded-xl transition-colors"
+                >
+                  Okay
+                </button>
+              </div>
+            </div>
           </div>
         )}
 

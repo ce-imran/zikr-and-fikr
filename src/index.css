@@ -1,6 +1,22 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@font-face {
+  font-family: 'Jameel Noori Nastaleeq Regular';
+  src: url('/fonts/Jameel-Noori-Nastaleeq-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jameel Noori Nastaleeq Kasheeda';
+  src: url('/fonts/Jameel-Noori-Nastaleeq-Kasheeda.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   body {
     background-color: #f6f8fa;
@@ -41,8 +57,9 @@
 
 /* Single Post Reading Typography */
 .prose-reading {
-  font-size: 1.125rem;
-  line-height: 2;
+  font-family: 'Jameel Noori Nastaleeq Regular', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.25rem; /* Slightly larger base size for Nastaleeq legibility */
+  line-height: 2.5; /* Increased line-height for Nastaleeq */
   color: #24292f;
   word-wrap: break-word;
   overflow-wrap: anywhere;
@@ -63,9 +80,9 @@
 }
 
 .prose-reading h1, .prose-reading h2, .prose-reading h3 {
-  font-family: 'Amiri', serif;
+  font-family: 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif;
   color: #24292f;
-  font-weight: 700;
+  font-weight: normal; /* Nastaleeq fonts usually handle thickness implicitly */
   margin-top: 1.75em;
   margin-bottom: 0.75em;
 }
@@ -114,9 +131,9 @@
 
 /* Make Quill Editor match Frontend Prose Reading styles */
 .rich-text-editor-container .ql-editor {
-  font-size: 1.125rem;
-  line-height: 2;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Jameel Noori Nastaleeq Regular', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.25rem;
+  line-height: 2.5;
   color: #24292f;
   word-wrap: break-word;
   overflow-wrap: anywhere;
@@ -129,8 +146,8 @@
 .rich-text-editor-container .ql-editor h1,
 .rich-text-editor-container .ql-editor h2,
 .rich-text-editor-container .ql-editor h3 {
-  font-family: 'Amiri', serif;
-  font-weight: 700;
+  font-family: 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif;
+  font-weight: normal;
   margin-top: 1.75em;
   margin-bottom: 0.75em;
 }
