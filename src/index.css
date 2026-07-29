@@ -44,6 +44,11 @@
   font-size: 1.125rem;
   line-height: 2;
   color: #24292f;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .dark .prose-reading {
@@ -106,6 +111,10 @@
   line-height: 2;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #24292f;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 .dark .rich-text-editor-container .ql-editor {
   color: #c9d1d9;
@@ -118,3 +127,11 @@
   margin-top: 1.75em;
   margin-bottom: 0.75em;
 }
+
+/* Quill alignment classes for frontend */
+.ql-align-center { text-align: center; }
+.ql-align-right { text-align: right; }
+.ql-align-justify { text-align: justify; }
+.ql-direction-rtl { direction: rtl; text-align: inherit; }
+.ql-editor { outline: none; }
+

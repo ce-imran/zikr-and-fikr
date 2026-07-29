@@ -17,7 +17,7 @@ function AppContent({ authState, setAuthState }) {
   const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/cms-access');
 
   return (
-    <div className="flex flex-col min-h-screen relative bg-white dark:bg-[#0d1117] text-black dark:text-[#c9d1d9] transition-colors">
+    <div className="flex flex-col min-h-screen relative transition-colors">
       
       {!isAdminRoute && (
         <>

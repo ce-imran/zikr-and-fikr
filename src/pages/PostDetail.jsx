@@ -175,7 +175,7 @@ export default function PostDetail() {
       {/* Centered Readable Container (max-w-3xl) */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
 
-        <div className="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] p-6 sm:p-10 rounded-3xl shadow-md space-y-8">
+        <div className="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] p-6 sm:p-10 rounded-3xl shadow-md space-y-8 overflow-hidden break-words max-w-full">
 
           {/* Header Info */}
           <div className="space-y-4 border-b border-[#d0d7de] dark:border-[#30363d] pb-6">
