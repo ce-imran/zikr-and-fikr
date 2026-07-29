@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="cover-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#022c22"/>
+      <stop offset="50%" stop-color="#044e37"/>
+      <stop offset="100%" stop-color="#064e37"/>
+    </linearGradient>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <pattern id="geometric-pattern" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 80 40 L 40 80 L 0 40 Z" fill="none" stroke="rgba(251, 191, 36, 0.08)" stroke-width="1.5"/>
+      <circle cx="40" cy="40" r="20" fill="none" stroke="rgba(251, 191, 36, 0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#cover-bg)"/>
+  <rect width="1200" height="630" fill="url(#geometric-pattern)"/>
+  
+  <!-- Outer Gold Frame -->
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="url(#gold-grad)" stroke-width="3" rx="16"/>
+  <rect x="52" y="52" width="1096" height="526" fill="none" stroke="rgba(251, 191, 36, 0.3)" stroke-width="1" rx="12"/>
+
+  <!-- Islamic Bismillah Calligraphy Motif -->
+  <text x="600" y="240" font-family="'Amiri', 'Traditional Arabic', serif" font-size="54" fill="url(#gold-grad)" text-anchor="middle" font-weight="bold">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</text>
+
+  <!-- Title Text -->
+  <text x="600" y="340" font-family="system-ui, sans-serif" font-size="44" fill="#ffffff" text-anchor="middle" font-weight="700">Daily Islamic Reflections</text>
+  <text x="600" y="400" font-family="system-ui, sans-serif" font-size="22" fill="#a7f3d0" text-anchor="middle">Nur &amp; Hikmah — Nurturing the Heart &amp; Mind</text>
+
+  <!-- Footer Credit -->
+  <text x="600" y="520" font-family="system-ui, sans-serif" font-size="16" fill="url(#gold-grad)" text-anchor="middle">Made with ❤️ by Imran Ahmad</text>
+</svg>

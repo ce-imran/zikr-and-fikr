@@ -1,0 +1,33 @@
+{
+  "short_name": "Zikr & Fikr",
+  "name": "Zikr & Fikr — Daily Reflections & Hikmah",
+  "description": "A serene daily blogging platform featuring Islamic reflections, Hadith commentary, Quranic insights, and spiritual growth.",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0c100d",
+  "theme_color": "#141a16",
+  "display": "standalone",
+  "orientation": "portrait",
+  "categories": ["lifestyle", "spirituality", "education"],
+  "screenshots": [
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

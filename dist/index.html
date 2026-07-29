@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#141a16" />
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Zikr & Fikr — Daily Reflections & Hikmah</title>
+    <meta name="title" content="Zikr & Fikr — Daily Reflections & Hikmah" />
+    <meta name="description" content="A serene daily Islamic blogging platform featuring Hadith commentary, Quranic insights, daily reflections, and spiritual growth." />
+    
+    <!-- Open Graph / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ceimran.in/" />
+    <meta property="og:title" content="Zikr & Fikr — Daily Reflections & Hikmah" />
+    <meta property="og:description" content="Read daily spiritual reflections, Quranic insights, and Hadith commentary in a serene minimalist Islamic design." />
+    <meta property="og:image" content="/assets/default-cover.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Zikr & Fikr — Daily Reflections & Hikmah" />
+    <meta property="twitter:description" content="Read daily spiritual reflections, Quranic insights, and Hadith commentary." />
+    <meta property="twitter:image" content="/assets/default-cover.svg" />
+
+    <!-- PWA Manifest & Apple Touch -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-j_Kzahft.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BzrHOke_.css">
+  </head>
+  <body class="bg-[#fbf9f5] text-stone-900 dark:bg-[#0c100d] dark:text-stone-100 antialiased selection:bg-amber-500 selection:text-stone-950">
+    <div id="root"></div>
+    <script>
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('🟢 PWA Service Worker Active:', reg.scope))
+            .catch(err => console.error('🔴 PWA Service Worker Failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #f6f8fa;
+    color: #24292f;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .dark body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+  }
+}
+
+/* GitHub Theme Custom Tokens */
+.bg-gh-light-bg { background-color: #f6f8fa; }
+.bg-gh-light-card { background-color: #ffffff; }
+.text-gh-light-text { color: #24292f; }
+.text-gh-light-muted { color: #57606a; }
+.border-gh-light-border { border-color: #d0d7de; }
+
+.dark .dark\:bg-gh-dark-bg { background-color: #0d1117; }
+.dark .dark\:bg-gh-dark-card { background-color: #161b22; }
+.dark .dark\:text-gh-dark-text { color: #c9d1d9; }
+.dark .dark\:text-gh-dark-muted { color: #8b949e; }
+.dark .dark\:border-gh-dark-border { border-color: #30363d; }
+
+/* Subtle Geometric Pattern Overlay */
+.islamic-bg-pattern {
+  background-color: #f6f8fa;
+  background-image: radial-gradient(rgba(217, 119, 6, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+.dark .islamic-bg-pattern {
+  background-color: #0d1117;
+  background-image: radial-gradient(rgba(251, 191, 36, 0.07) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* Single Post Reading Typography */
+.prose-reading {
+  font-size: 1.125rem;
+  line-height: 2;
+  color: #24292f;
+}
+
+.dark .prose-reading {
+  color: #c9d1d9;
+}
+
+.prose-reading h1, .prose-reading h2, .prose-reading h3 {
+  font-family: 'Amiri', serif;
+  color: #24292f;
+  font-weight: 700;
+  margin-top: 1.75em;
+  margin-bottom: 0.75em;
+}
+
+.dark .prose-reading h1, .dark .prose-reading h2, .dark .prose-reading h3 {
+  color: #f0f6fc;
+}
+
+.prose-reading blockquote, .reading-quote {
+  border-left: 4px solid #d97706;
+  background: rgba(217, 119, 6, 0.06);
+  padding: 1.5rem 1.75rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+  font-family: 'Amiri', serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #24292f;
+  margin: 2rem 0;
+}
+
+.dark .prose-reading blockquote, .dark .reading-quote {
+  background: rgba(251, 191, 36, 0.08);
+  color: #c9d1d9;
+  border-left-color: #fbbf24;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f6f8fa;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #d0d7de;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #30363d;
+}
