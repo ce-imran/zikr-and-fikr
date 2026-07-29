@@ -10,6 +10,8 @@ import Reflections from './pages/Reflections';
 import PostDetail from './pages/PostDetail';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AuthorProfile from './pages/AuthorProfile';
+import QazaTracker from './pages/QazaTracker';
 import { fetchJson } from './services/api';
 
 function AppContent({ authState, setAuthState }) {
@@ -34,6 +36,8 @@ function AppContent({ authState, setAuthState }) {
           <Route path="/" element={<Home />} />
           <Route path="/reflections" element={<Reflections />} />
           <Route path="/post/:slug" element={<PostDetail />} />
+          <Route path="/author/:name" element={<AuthorProfile />} />
+          <Route path="/qaza-tracker" element={<QazaTracker authState={authState} />} />
           
           {/* Hidden CMS Access Route */}
           <Route

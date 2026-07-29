@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, Bell, Download, BookOpen } from 'lucide-react';
+import { Moon, Sun, Bell, Download, BookOpen, Clock } from 'lucide-react';
 import { requestFcmTokenAndSubscribe } from '../services/firebaseClient';
 import Toast from './Toast';
 
@@ -102,6 +102,18 @@ export default function Navbar() {
                   <BookOpen className="w-4 h-4 text-amber-500" />
                   <span>All Reflections</span>
                 </Link>
+
+                <Link
+                  to="/qaza-tracker"
+                  className={`text-xs font-bold transition-colors flex items-center space-x-1.5 px-3 py-1.5 rounded-lg ${
+                    location.pathname === '/qaza-tracker'
+                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                      : 'text-[#57606a] dark:text-[#8b949e] hover:text-[#24292f] dark:hover:text-white'
+                  }`}
+                >
+                  <Clock className="w-4 h-4 text-emerald-500" />
+                  <span>Qaza Tracker</span>
+                </Link>
               </nav>
             </div>
 
@@ -115,6 +127,15 @@ export default function Navbar() {
                 title="All Reflections"
               >
                 <span>Archive</span>
+              </Link>
+
+              {/* Mobile Navigation Button to /qaza-tracker */}
+              <Link
+                to="/qaza-tracker"
+                className="md:hidden px-2 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline shrink-0"
+                title="Qaza Tracker"
+              >
+                <span>Qaza</span>
               </Link>
 
               {/* PWA 1-Click Native Install Button */}

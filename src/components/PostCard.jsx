@@ -105,9 +105,15 @@ export default function PostCard({ post }) {
 
           <div className="truncate">
             <div className="flex items-center space-x-1.5 truncate">
-              <p className="text-xs font-bold text-[#24292f] dark:text-[#f0f6fc] truncate group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+              <span 
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = `/author/${(post.author?.display_name || "unknown").toLowerCase().replace(/\s+/g, '-')}`;
+                }}
+                className="cursor-pointer text-xs font-bold text-[#24292f] dark:text-[#f0f6fc] truncate hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+              >
                 {post.author?.display_name ? post.author.display_name : "Unknown Author"}
-              </p>
+              </span>
               {post.author?.role ? (
                 <span className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[9px] font-semibold px-1.5 py-0.5 rounded-full shrink-0">
                   {post.author.role}

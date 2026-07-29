@@ -197,6 +197,7 @@ app.use('/api/posts', require('./routes/posts'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/qaza', require('./routes/qaza'));
 
 // Serve Frontend (dist or public fallback)
 const distPath = path.join(__dirname, 'dist');

@@ -222,9 +222,12 @@ export default function PostDetail() {
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <p className="font-bold text-[#24292f] dark:text-[#f0f6fc] text-sm">
-                      {post.author?.display_name ? post.author.display_name : "Unknown Author"}
-                    </p>
+                    <Link 
+                        to={`/author/${(post.author?.display_name || "unknown").toLowerCase().replace(/\s+/g, '-')}`}
+                        className="font-bold text-[#24292f] dark:text-[#f0f6fc] text-sm hover:text-amber-500 transition-colors"
+                      >
+                        {post.author?.display_name ? post.author.display_name : "Unknown Author"}
+                      </Link>
                     {post.author?.role ? (
                       <span className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[10px] font-semibold px-2 py-0.5 rounded-full">
                         {post.author.role}

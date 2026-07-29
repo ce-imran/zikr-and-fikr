@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-600/40 via-amber-500 to-amber-600/40"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
             
             {/* Brand Info */}
             <div className="md:col-span-2 space-y-4">
@@ -91,6 +91,20 @@ export default function Footer() {
                 <li><span className="hover:text-amber-400 transition-colors cursor-pointer">Quranic Insights</span></li>
                 <li><span className="hover:text-amber-400 transition-colors cursor-pointer">Hadith Commentary</span></li>
                 <li><span className="hover:text-amber-400 transition-colors cursor-pointer">Fiqh &amp; Ethics</span></li>
+              </ul>
+            </div>
+
+            {/* Authors */}
+            <div>
+              <h4 className="font-amiri text-lg font-bold text-amber-400 mb-4 border-b border-[#30363d] pb-2">
+                Our Team
+              </h4>
+              <ul className="space-y-2 text-sm text-[#8b949e]">
+                <li>
+                  <Link to="/author/ahmad-khliquzzafar" className="hover:text-amber-400 transition-colors cursor-pointer">
+                    Ahmad Khliquzzafar
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>

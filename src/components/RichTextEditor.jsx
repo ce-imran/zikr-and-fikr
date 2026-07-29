@@ -1,12 +1,17 @@
 import React, { useRef } from 'react';
-import ReactQuill from 'react-quill-new';
+import ReactQuill, { Quill } from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+
+const Font = Quill.import('formats/font');
+Font.whitelist = ['inter', 'jameel-noori-regular', 'jameel-noori-kasheeda'];
+Quill.register(Font, true);
 
 export default function RichTextEditor({ value, onChange, placeholder = 'Write your daily reflection manually...' }) {
   const quillRef = useRef(null);
 
   const modules = {
     toolbar: [
+      [{ font: ['inter', 'jameel-noori-regular', 'jameel-noori-kasheeda'] }],
       [{ header: [1, 2, 3, false] }],
       ['bold', 'italic', 'underline', 'strike'],
       [{ color: [] }, { background: [] }],
@@ -18,6 +23,7 @@ export default function RichTextEditor({ value, onChange, placeholder = 'Write y
   };
 
   const formats = [
+    'font',
     'header',
     'bold', 'italic', 'underline', 'strike',
     'color', 'background',
