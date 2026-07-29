@@ -399,8 +399,8 @@ export default function AdminDashboard({ authState, setAuthState }) {
         </div>
 
         {/* TABS NAVIGATION */}
-        <div className="flex items-center justify-between border-b border-[#30363d] pb-4">
-          <div className="flex items-center space-x-2 bg-[#161b22] p-1.5 rounded-xl border border-[#30363d]">
+        <div className="flex items-center justify-between border-b border-[#30363d] pb-4 flex-wrap gap-4">
+          <div className="flex items-center space-x-2 bg-[#161b22] p-1.5 rounded-xl border border-[#30363d] overflow-x-auto max-w-full">
             <button
               onClick={() => setActiveTab('list')}
               className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${activeTab === 'list' ? 'bg-amber-500 text-stone-950 shadow-sm' : 'text-stone-300 hover:text-white'

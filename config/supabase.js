@@ -94,7 +94,8 @@ function toSupabasePostPayload(data) {
 
 function formatUser(row) {
   if (!row) return null;
-  const name = row.full_name || row.name || 'Authorized Manager';
+  const name = row.display_name || row.full_name || row.name || 'Authorized Manager';
+  const role = row.role || row.title || 'Admin';
   const hasCustomName = name && name !== 'Google Admin User' && name !== 'Authorized Manager';
   // Existing accounts that already logged in or have a profile should never be repeatedly prompted for setup
   const isFirst = row.is_first_time !== undefined ? row.is_first_time : (hasCustomName ? false : false);
@@ -105,7 +106,8 @@ function formatUser(row) {
     googleId: row.google_id || row.googleId,
     email: row.email,
     name: name,
-    avatar: row.avatar || '',
+    role: role,
+    avatar: row.avatar_url || row.avatar || '',
     isAdmin: row.is_admin ?? row.isAdmin ?? true,
     secretVerified: row.secret_verified ?? row.secretVerified ?? false,
     isFirstTime: isFirst,

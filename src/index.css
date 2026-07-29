@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   body {
@@ -95,4 +96,25 @@
 }
 .dark ::-webkit-scrollbar-thumb {
   background: #30363d;
+}
+
+
+
+/* Make Quill Editor match Frontend Prose Reading styles */
+.rich-text-editor-container .ql-editor {
+  font-size: 1.125rem;
+  line-height: 2;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #24292f;
+}
+.dark .rich-text-editor-container .ql-editor {
+  color: #c9d1d9;
+}
+.rich-text-editor-container .ql-editor h1,
+.rich-text-editor-container .ql-editor h2,
+.rich-text-editor-container .ql-editor h3 {
+  font-family: 'Amiri', serif;
+  font-weight: 700;
+  margin-top: 1.75em;
+  margin-bottom: 0.75em;
 }
