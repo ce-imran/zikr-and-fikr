@@ -87,6 +87,11 @@
   margin-bottom: 0.75em;
 }
 
+.font-nastaleeq-title {
+  font-family: 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif !important;
+  font-weight: normal !important;
+}
+
 .dark .prose-reading h1, .dark .prose-reading h2, .dark .prose-reading h3 {
   color: #f0f6fc;
 }

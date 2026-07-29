@@ -184,7 +184,7 @@ export default function PostDetail() {
             </div>
 
             {post.title && (
-              <h1 className="font-amiri text-3xl sm:text-4xl font-bold text-[#24292f] dark:text-[#f0f6fc] leading-tight">
+              <h1 className="font-nastaleeq-title text-3xl sm:text-4xl font-bold text-[#24292f] dark:text-[#f0f6fc] leading-tight pb-2">
                 {post.title}
               </h1>
             )}

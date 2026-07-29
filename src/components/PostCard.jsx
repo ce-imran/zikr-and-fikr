@@ -60,7 +60,7 @@ export default function PostCard({ post }) {
 
           {/* Title */}
           {post.title && (
-            <h3 className="font-amiri text-xl sm:text-2xl font-bold text-[#24292f] dark:text-[#f0f6fc] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug line-clamp-2">
+            <h3 className="font-nastaleeq-title text-xl sm:text-2xl font-bold text-[#24292f] dark:text-[#f0f6fc] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug line-clamp-2 pb-1">
               {post.title}
             </h3>
           )}

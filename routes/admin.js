@@ -121,7 +121,39 @@ router.post('/posts', requireAdminAuth, async (req, res) => {
       : 'image_text';
 
     const finalBody = body || content || (finalContentType === 'image_only' ? 'Visual Reflection' : 'Daily Islamic Reflection Content');
-    const finalImageUrl = image_url || coverImage || '/assets/default-cover.svg';
+    let finalImageUrl = image_url || coverImage || '/assets/default-cover.svg';
+
+    // If coverImage is a base64 string, upload it to Supabase Storage
+    if (finalImageUrl.startsWith('data:image')) {
+      try {
+        const mimeTypeMatch = finalImageUrl.match(/data:(image\/[a-zA-Z+]+);base64,/);
+        if (mimeTypeMatch && mimeTypeMatch[1]) {
+          const mimeType = mimeTypeMatch[1];
+          const base64Data = finalImageUrl.replace(/^data:image\/\w+;base64,/, '');
+          const buffer = Buffer.from(base64Data, 'base64');
+          const ext = mimeType.split('/')[1];
+          const fileName = `posts/cover_${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+
+          const { data: uploadData, error: uploadError } = await supabase
+            .storage
+            .from('profile_pictures')
+            .upload(fileName, buffer, { contentType: mimeType });
+
+          if (!uploadError) {
+            const { data: publicUrlData } = supabase
+              .storage
+              .from('profile_pictures')
+              .getPublicUrl(fileName);
+            finalImageUrl = publicUrlData.publicUrl;
+          } else {
+            console.error("Cover image upload failed:", uploadError);
+          }
+        }
+      } catch (e) {
+        console.error("Base64 cover image processing error:", e);
+      }
+    }
+
     const postTitle = title || (finalContentType === 'image_only' ? 'Visual Reflection ' + new Date().toLocaleDateString() : 'Islamic Reflection');
 
     const validCategories = ['Daily Reflection', 'Quranic Insights', 'Hadith Commentary', 'Islamic History', 'Fiqh & Character'];
