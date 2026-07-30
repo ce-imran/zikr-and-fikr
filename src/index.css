@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
@@ -175,3 +175,10 @@
 .ql-picker.ql-font .ql-picker-label[data-value='jameel-noori-kasheeda']::before,
 .ql-picker.ql-font .ql-picker-item[data-value='jameel-noori-kasheeda']::before { content: 'Urdu Kasheeda'; font-family: 'Jameel Noori Nastaleeq Kasheeda'; }
 .ql-picker.ql-font { width: 150px !important; }
+
+/* Urdu Text Wrapping Fix */
+.urdu-text, .ql-font-jameel-noori-regular, .ql-font-jameel-noori-kasheeda, [dir="rtl"] {
+  word-wrap: break-word !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}

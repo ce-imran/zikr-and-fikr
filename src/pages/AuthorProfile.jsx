@@ -10,9 +10,23 @@ export default function AuthorProfile() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const iframeRef = React.useRef(null);
+  
   // Normalize the name from the URL slug
   const authorName = name ? name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Author';
-  const isAdminAhmad = name?.toLowerCase() === 'ahmad-khaliquzzafar';
+  const isAdminAhmad = name?.toLowerCase().includes('ahmad');
+
+  // Send posts to iframe when loaded
+  useEffect(() => {
+    if (isAdminAhmad && iframeRef.current && posts.length > 0) {
+      // Small timeout to ensure iframe scripts are ready
+      setTimeout(() => {
+        if (iframeRef.current?.contentWindow) {
+          iframeRef.current.contentWindow.postMessage(posts, '*');
+        }
+      }, 500);
+    }
+  }, [posts, isAdminAhmad]);
 
   useEffect(() => {
     // Fetch posts written by this author
@@ -37,6 +51,25 @@ export default function AuthorProfile() {
     loadAuthorPosts();
   }, [authorName, name]);
 
+  if (isAdminAhmad) {
+    return (
+      <div className="w-full h-screen bg-[#0a2e1f]">
+        <SeoHead title={`${authorName}'s Profile - Zikr & Fikr`} />
+        <iframe 
+          ref={iframeRef}
+          src="/assets/profile/index.html" 
+          title="Ahmad Khaliquzzafar Profile"
+          className="w-full h-full border-none"
+          onLoad={() => {
+            if (posts.length > 0 && iframeRef.current?.contentWindow) {
+              iframeRef.current.contentWindow.postMessage(posts, '*');
+            }
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0d1117] transition-colors pb-20">
       <SeoHead title={`${authorName}'s Profile - Zikr & Fikr`} />
@@ -58,20 +91,10 @@ export default function AuthorProfile() {
               {/* Avatar */}
               <div className="relative">
                 <div className="w-40 h-40 rounded-full ring-8 ring-white dark:ring-[#161b22] bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/20 flex items-center justify-center overflow-hidden shadow-lg">
-                  {isAdminAhmad ? (
-                    <img src="/assets/ahmad.jpg" alt={authorName} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
-                  ) : null}
-                  <div className={`w-full h-full items-center justify-center text-5xl font-bold text-emerald-600 dark:text-emerald-400 ${isAdminAhmad ? 'hidden' : 'flex'}`}>
+                  <div className="w-full h-full flex items-center justify-center text-5xl font-bold text-emerald-600 dark:text-emerald-400">
                     {authorName.charAt(0)}
                   </div>
                 </div>
-                {isAdminAhmad && (
-                  <div className="absolute bottom-2 right-2 bg-blue-500 rounded-full p-1.5 ring-4 ring-white dark:ring-[#161b22]" title="Verified Admin">
-                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                )}
               </div>
 
               {/* Profile Info */}
@@ -81,13 +104,11 @@ export default function AuthorProfile() {
                 </h1>
                 <p className="text-lg text-emerald-600 dark:text-emerald-400 font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
                   <PenTool className="w-5 h-5" />
-                  {isAdminAhmad ? "Lead Author & Developer" : "Contributing Author"}
+                  Contributing Author
                 </p>
                 
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl text-lg mb-6">
-                  {isAdminAhmad ? 
-                    "Assalamu alaikum! I am a passionate developer and writer, focusing on Islamic reflections, modern technology, and the intersection of faith and daily life. Welcome to my personal portfolio and blog space." 
-                    : "Exploring the depths of faith through writing and reflection. Sharing thoughts on spirituality, daily life, and the pursuit of knowledge."}
+                  Exploring the depths of faith through writing and reflection. Sharing thoughts on spirituality, daily life, and the pursuit of knowledge.
                 </p>
 
                 {/* Social & Details */}
@@ -96,18 +117,6 @@ export default function AuthorProfile() {
                     <MapPin className="w-4 h-4" />
                     <span>India</span>
                   </div>
-                  {isAdminAhmad && (
-                    <>
-                      <a href="#" className="flex items-center gap-1.5 bg-gray-100 dark:bg-[#0d1117] hover:bg-gray-200 dark:hover:bg-[#21262d] px-3 py-1.5 rounded-full border border-gray-200 dark:border-[#30363d] transition-colors text-gray-700 dark:text-gray-300">
-                        <ExternalLink className="w-4 h-4" />
-                        <span>GitHub</span>
-                      </a>
-                      <a href="#" className="flex items-center gap-1.5 bg-gray-100 dark:bg-[#0d1117] hover:bg-gray-200 dark:hover:bg-[#21262d] px-3 py-1.5 rounded-full border border-gray-200 dark:border-[#30363d] transition-colors text-blue-600 dark:text-blue-400">
-                        <ExternalLink className="w-4 h-4" />
-                        <span>LinkedIn</span>
-                      </a>
-                    </>
-                  )}
                   <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800/30">
                     <BookOpen className="w-4 h-4" />
                     <span>{posts.length} Publications</span>

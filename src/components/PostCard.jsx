@@ -108,6 +108,7 @@ export default function PostCard({ post }) {
               <span 
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   window.location.href = `/author/${(post.author?.display_name || "unknown").toLowerCase().replace(/\s+/g, '-')}`;
                 }}
                 className="cursor-pointer text-xs font-bold text-[#24292f] dark:text-[#f0f6fc] truncate hover:text-amber-600 dark:hover:text-amber-400 transition-colors"

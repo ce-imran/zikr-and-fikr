@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Ahmad Khliquzzafar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    
+    <header class="main-header scrolled">
+        <div class="container header-container">
+            <div class="header-brand">
+                <a href="/" class="brand-link">
+                    <span class="brand-name">Ahmad Khliquzzafar</span>
+                    <span class="brand-tagline">Serving the Ummah through Knowledge and Reform.</span>
+                </a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/posts/">Latest Post</a></li>
+                    <li><a href="#" id="ask-fatwa-btn">Ask Fatwa</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content" style="padding-top: 120px; background-color: var(--cream);">
+        <section class="about-hero">
+            <div class="container">
+                <h1 class="section-heading">Detailed Biography</h1>
+                <div class="about-grid">
+                    <div class="about-image-wrapper">
+                        <div class="image-frame">
+                            <img src="/ahmad.jpeg" alt="Ahmad Khliquzzafar" class="normal-image">
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <h2 class="cinzel" style="color: var(--royal-gold);">Ahmad Khliquzzafar</h2>
+                        <p class="mission-statement">"To serve Islam, contribute to the reformation of society, and specialize in Comparative Religion and Islamic Jurisprudence."</p>
+                        <div class="bio-content">
+                            <p>Ahmad Khliquzzafar is the son of Md. Muzaffar Hussain. He is a dedicated student of Islamic Studies, currently pursuing his <strong>Alimiyyah</strong> education at <strong>Al-Jamiatul Ashrafia Mubarakpur</strong>, one of the most prestigious Islamic seminaries.</p>
+                            <p>With a profound interest in <strong>Comparative Religion</strong> and <strong>Islamic Jurisprudence (Fiqh)</strong>, Ahmad is focused on understanding the complexities of modern social issues through the lens of traditional Islamic scholarship.</p>
+                            <p>He has successfully completed specialized studies in <strong>Qirā’at</strong> and is actively involved in teaching, helping others connect with the correct recitation of the Holy Quran.</p>
+                            <p>His mission is driven by a desire for societal reform and the preservation of the intellectual heritage of Islam. He believes that knowledge is not merely information but a light that guides character and conduct.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mission-vision" style="background: var(--primary-green); color: white; padding: 80px 0; margin-top: 80px;">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    <div>
+                        <h3 class="cinzel" style="color: var(--bright-gold);">Our Mission</h3>
+                        <p>To provide authentic Islamic guidance rooted in the Quran and Sunnah, addressing the spiritual and intellectual needs of the modern Ummah.</p>
+                    </div>
+                    <div>
+                        <h3 class="cinzel" style="color: var(--bright-gold);">Our Vision</h3>
+                        <p>To see a society reformed through the light of knowledge, where every individual embodies the beauty of Islamic character (Akhlaq).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="minimal-footer">
+        <div class="container">
+            <div class="footer-copyright">
+                <p>© 2026 Ahmad Khliquzzafar. All Rights Reserved.</p>
+                <p>Developed with ❤️ by <a href="https://ceimran.in" style="color: #c5a028; text-decoration: none; font-weight: bold;">IMRAN AHMAD</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FATWA MODAL -->
+    <div id="fatwa-modal" class="modal">
+        <div class="modal-content glass-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 class="urdu-title-gold">دار الافتاء</h2>
+                <h3 class="modal-subtitle">Ask a Question</h3>
+            </div>
+            <div id="modal-form-container">
+                <form id="fatwa-form">
+                    <div class="form-group">
+                        <label for="fatwa-name">Full Name</label>
+                        <input type="text" id="fatwa-name" name="name" placeholder="Ahmad Khan" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fatwa-email">Email Address</label>
+                            <input type="email" id="fatwa-email" name="email" placeholder="example@mail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="fatwa-whatsapp">WhatsApp Number</label>
+                            <input type="text" id="fatwa-whatsapp" name="whatsapp" placeholder="+91 1234567890">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fatwa-question">Your Question / Fatwa</label>
+                        <textarea id="fatwa-question" name="question" rows="4" placeholder="Write your question here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-gold" id="fatwa-submit">
+                        <span class="btn-text">إرسال (Submit)</span>
+                        <div class="spinner" id="submit-spinner"></div>
+                    </button>
+                </form>
+            </div>
+            <div id="modal-status-container" class="status-container"></div>
+        </div>
+    </div>
+    <div id="ui-notification" class="ui-notification"></div>
+
+    <!-- FLOATING ACTION BUTTONS -->
+    <div class="fab-container">
+        <button class="fab fab-fatwa floating-ask-btn" id="floating-fatwa-btn" title="Ask Fatwa">
+            <i class="fas fa-feather-pointed"></i>
+            <span class="fab-label">Ask Fatwa</span>
+        </button>
+        <a href="https://wa.me/YOUR_NUMBER" class="fab fab-whatsapp" target="_blank" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="fab-label">WhatsApp</span>
+        </a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>

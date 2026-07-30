@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-blog-v1';
+const CACHE_NAME = 'islamic-blog-v3';
 const OFFLINE_URL = '/offline.html';
 
 const ASSETS_TO_CACHE = [

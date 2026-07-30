@@ -255,8 +255,8 @@ export default function AdminDashboard({ authState, setAuthState }) {
       setMessage({ type: 'error', text: 'Title and content are required for Text Only posts.' });
       return;
     }
-    if (postType === 'image_only' && !coverImage) {
-      setMessage({ type: 'error', text: 'Image upload is required for Picture Only posts.' });
+    if (postType === 'image_only' && (!title.trim() || !coverImage)) {
+      setMessage({ type: 'error', text: 'Title and Image upload are required for Picture Only posts.' });
       return;
     }
     if (postType === 'image_text' && (!title.trim() || !content.trim() || !coverImage)) {
@@ -626,22 +626,22 @@ export default function AdminDashboard({ authState, setAuthState }) {
               </div>
 
               {/* Title & Category */}
-              {postType !== 'image_only' && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-stone-300 mb-1.5">
-                      Post Title *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="e.g. Excellence in Character (Husn al-Khuluq)..."
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-xl text-sm text-stone-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    />
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                    Post Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="e.g. Excellence in Character (Husn al-Khuluq)..."
+                    className="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-xl text-sm text-stone-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
 
+                {postType !== 'image_only' && (
                   <div>
                     <label className="block text-xs font-semibold text-stone-300 mb-1.5">
                       Category
@@ -658,8 +658,8 @@ export default function AdminDashboard({ authState, setAuthState }) {
                       <option value="Fiqh & Character">Fiqh &amp; Character</option>
                     </select>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
 
               {/* Summary */}
               {postType !== 'image_only' && (

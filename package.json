@@ -26,6 +26,7 @@
     "@supabase/supabase-js": "^2.110.8",
     "clsx": "^2.1.1",
     "compression": "^1.8.1",
+    "cookie-session": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "express": "^4.21.2",

@@ -28,7 +28,7 @@ router.get('/me', async (req, res) => {
         
         if (userData) {
           dbUser = userData;
-          if (dbUser.display_name) isFirstTime = false;
+          if (dbUser.display_name || dbUser.name || dbUser.full_name) isFirstTime = false;
         }
       } catch (err) {
         console.error("Supabase fetch user error:", err);

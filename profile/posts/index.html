@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts | Ahmad Khliquzzafar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    
+    <header class="main-header scrolled">
+        <div class="container header-container">
+            <div class="header-brand">
+                <a href="/" class="brand-link">
+                    <span class="brand-name">Ahmad Khliquzzafar</span>
+                    <span class="brand-tagline">Serving the Ummah through Knowledge and Reform.</span>
+                </a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/posts/">Latest Post</a></li>
+                    <li><a href="#" id="ask-fatwa-btn">Ask Fatwa</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content" style="padding-top: 120px; background-color: var(--primary-green); min-height: 100vh;">
+        <section class="posts-list">
+            <div class="container">
+                <h1 class="section-heading" style="color: white;">Scholarly Articles</h1>
+                
+                <!-- Latest Post -->
+                <div class="article-card" style="margin-bottom: 50px;">
+                    <div class="article-header">
+                        <h2 class="urdu-title">دل و دانش کی باتیں</h2>
+                        <h3 class="urdu-subtitle">"نـورِ عـلـم، جـمـالِ انـسـان"</h3>
+                        <p class="urdu-author">✍️ از قلم: احـمد خـلیـق الـظفر</p>
+                    </div>
+                    <div class="article-body urdu-text">
+                        <p>بعض سچائیاں وقت کے پردوں میں کبھی دفن نہیں ہوتیں۔ انسان کا باطن، اس کی فطرت، اور اس کی عقل خود ان کی گواہی دیتی ہے۔ انہی اٹل حقیقتوں میں ایک حقیقت یہ بھی ہے کہ علم محض کتابوں کے اوراق کا نام نہیں، بلکہ روح کی روشنی، فکر کی بالیدگی اور انسان کے وجود کا سب سے حسین زیور ہے۔</p>
+                        <p>میں ہمیشہ یہ محسوس کرتا آیا ہوں کہ دنیا میں سب سے خوبصورت منظر کسی حسین چہرے کا نہیں، بلکہ ایک صاحبِ علم انسان کا ہوتا ہے۔ کیونکہ حسن چند لمحوں کے لیے نگاہوں کو متاثر کرتا ہے، مگر علم نسلوں کے دلوں پر اثر چھوڑتا ہے۔</p>
+                        <p>...</p>
+                        <a href="/#articles" class="cinzel" style="color: var(--bright-gold); text-decoration: none;">Read full article on home page</a>
+                    </div>
+                </div>
+
+                <!-- Placeholder for future posts -->
+                <div class="article-card" style="opacity: 0.6; border-style: dashed;">
+                    <div class="article-header">
+                        <h2 class="cinzel">Coming Soon</h2>
+                        <p>More articles and insights are being prepared.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2 class="footer-logo">Ahmad Khliquzzafar</h2>
+                    <p class="footer-tagline">Serving the Ummah through Knowledge and Reform.</p>
+                </div>
+                <div class="footer-links">
+                    <nav>
+                        <ul>
+                            <li><a href="/about/">About</a></li>
+                            <li><a href="/posts/">Latest Post</a></li>
+                            <li><a href="/#hero">Back to Top</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-portrait">
+                    <img src="/ahmad.jpeg" alt="Thumbnail" class="footer-thumb">
+                </div>
+                <div class="footer-shayari">
+                    <p class="urdu-shayari">کمالِ علم و ہنر سے ہے آدمی کی پہچان</p>
+                    <p class="urdu-shayari">وگرنہ صورت و مورت میں کیا رکھا ہے</p>
+                    <p class="shayari-transliteration">(Kamal-e-ilm-o-hunar se hai aadmi ki pehchaan, wagarna soorat-o-moorat mein kya rakha hai)</p>
+                </div>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>© 2026 Ahmad Khliquzzafar. All Rights Reserved.</p>
+                <p>Developed with ❤️ by <a href="https://ceimran.in" style="color: #c5a028; text-decoration: none; font-weight: bold;">IMRAN AHMAD</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FATWA MODAL -->
+    <div id="fatwa-modal" class="modal">
+        <div class="modal-content glass-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 class="urdu-title-gold">دار الافتاء</h2>
+                <h3 class="modal-subtitle">Ask a Question</h3>
+            </div>
+            <div id="modal-form-container">
+                <form id="fatwa-form">
+                    <div class="form-group">
+                        <label for="fatwa-name">Full Name</label>
+                        <input type="text" id="fatwa-name" name="name" placeholder="Ahmad Khan" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fatwa-email">Email Address</label>
+                            <input type="email" id="fatwa-email" name="email" placeholder="example@mail.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="fatwa-whatsapp">WhatsApp Number</label>
+                            <input type="text" id="fatwa-whatsapp" name="whatsapp" placeholder="+91 1234567890">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fatwa-question">Your Question / Fatwa</label>
+                        <textarea id="fatwa-question" name="question" rows="4" placeholder="Write your question here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-gold" id="fatwa-submit">
+                        <span class="btn-text">إرسال (Submit)</span>
+                        <div class="spinner" id="submit-spinner"></div>
+                    </button>
+                </form>
+            </div>
+            <div id="modal-status-container" class="status-container"></div>
+        </div>
+    </div>
+    <div id="ui-notification" class="ui-notification"></div>
+
+    <!-- FLOATING ACTION BUTTONS -->
+    <div class="fab-container">
+        <button class="fab fab-fatwa floating-ask-btn" id="floating-fatwa-btn" title="Ask Fatwa">
+            <i class="fas fa-feather-pointed"></i>
+            <span class="fab-label">Ask Fatwa</span>
+        </button>
+        <a href="https://wa.me/YOUR_NUMBER" class="fab fab-whatsapp" target="_blank" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="fab-label">WhatsApp</span>
+        </a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>

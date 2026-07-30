@@ -123,19 +123,19 @@ export default function Navbar() {
               {/* Mobile Navigation Button to /reflections */}
               <Link
                 to="/reflections"
-                className="md:hidden px-2 py-1 text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline shrink-0"
+                className="md:hidden p-2 rounded-lg text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors shrink-0"
                 title="All Reflections"
               >
-                <span>Archive</span>
+                <BookOpen className="w-5 h-5" />
               </Link>
 
               {/* Mobile Navigation Button to /qaza-tracker */}
               <Link
                 to="/qaza-tracker"
-                className="md:hidden px-2 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline shrink-0"
+                className="md:hidden p-2 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors shrink-0"
                 title="Qaza Tracker"
               >
-                <span>Qaza</span>
+                <Clock className="w-5 h-5" />
               </Link>
 
               {/* PWA 1-Click Native Install Button */}

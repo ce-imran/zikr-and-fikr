@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import FirstVisitPopup from './components/FirstVisitPopup';
 import PushNotificationModal from './components/PushNotificationModal';
 import FloatingActionGroup from './components/FloatingActionGroup';
+import FloatingLeftActionGroup from './components/FloatingLeftActionGroup';
 import Home from './pages/Home';
 import Reflections from './pages/Reflections';
 import PostDetail from './pages/PostDetail';
@@ -26,6 +27,7 @@ function AppContent({ authState, setAuthState }) {
           <FirstVisitPopup />
           <PushNotificationModal />
           <FloatingActionGroup />
+          <FloatingLeftActionGroup />
           <Navbar />
         </>
       )}
