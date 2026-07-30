@@ -109,7 +109,7 @@ export default function QazaTracker({ authState }) {
           </p>
           {!authState?.authenticated && (
             <button
-              onClick={() => window.location.href = '/api/auth/google'}
+              onClick={() => window.location.href = '/api/auth/google?returnTo=/qaza'}
               className="inline-flex items-center justify-center space-x-2 py-2.5 px-6 rounded-full border font-semibold text-sm transition-all bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-500 shadow-md"
             >
               <LogIn className="w-4 h-4" />
@@ -182,7 +182,7 @@ export default function QazaTracker({ authState }) {
             </p>
             <div className="pt-2 space-y-3">
               <button
-                onClick={() => window.location.href = '/api/auth/google'}
+                onClick={() => window.location.href = '/api/auth/google?returnTo=/qaza'}
                 className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all bg-emerald-600 hover:bg-emerald-700 text-white shadow-md"
               >
                 <LogIn className="w-5 h-5" />

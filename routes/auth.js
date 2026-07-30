@@ -364,6 +364,11 @@ router.post('/avatar', express.json({ limit: '10mb' }), handleAvatarUpload);
 
 // Google OAuth Login Trigger (Step 1)
 router.get('/google', (req, res, next) => {
+  if (req.query.returnTo) {
+    req.session.returnTo = req.query.returnTo;
+  } else {
+    delete req.session.returnTo;
+  }
   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 });
 
@@ -375,6 +380,13 @@ router.get('/google/callback', (req, res, next) => {
     }
     req.logIn(user, (loginErr) => {
       if (loginErr) return res.redirect('/cms-access?error=session_error');
+      
+      if (req.session.returnTo) {
+        const redirectTarget = req.session.returnTo;
+        delete req.session.returnTo;
+        return res.redirect(redirectTarget);
+      }
+      
       const targetUrl = req.session.secretVerified ? '/admin/dashboard' : '/cms-access?step=password_required';
       return res.redirect(targetUrl);
     });
