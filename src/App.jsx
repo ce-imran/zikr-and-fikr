@@ -17,22 +17,23 @@ import { fetchJson } from './services/api';
 
 function AppContent({ authState, setAuthState }) {
   const location = useLocation();
-  const isNoLayoutRoute = location.pathname.startsWith('/admin') || 
-                          location.pathname.startsWith('/cms-access') || 
-                          location.pathname.startsWith('/author/');
+  const isAdminRoute = location.pathname.startsWith('/admin') || 
+                       location.pathname.startsWith('/cms-access');
+  const isNoLayoutRoute = isAdminRoute || location.pathname.startsWith('/author/');
 
   return (
     <div className="flex flex-col min-h-screen relative transition-colors">
       
-      {!isNoLayoutRoute && (
+      {!isAdminRoute && (
         <>
           <FirstVisitPopup />
           <PushNotificationModal />
           <FloatingActionGroup />
           <FloatingLeftActionGroup />
-          <Navbar />
         </>
       )}
+
+      {!isNoLayoutRoute && <Navbar />}
 
       {/* Main Route Content */}
       <div className="flex-grow">
