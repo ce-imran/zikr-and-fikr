@@ -367,23 +367,6 @@ router.get('/google', (req, res, next) => {
   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 });
 
-// POST /api/auth/google-dev - Local Dev Fallback for Google Step 1
-router.post('/google-dev', (req, res) => {
-  req.session.adminUser = {
-    id: 'google-oauth-user-dev',
-    name: 'Authorized Google Manager',
-    email: 'admin@ceimran.in',
-    avatar: 'https://ui-avatars.com/api/?name=Google+Admin&background=0f172a&color=fff',
-    isFirstTime: false
-  };
-  return res.json({
-    success: true,
-    message: 'Google Step 1 completed via local fallback!',
-    googleAuthenticated: true,
-    user: req.session.adminUser
-  });
-});
-
 // Google OAuth Callback
 router.get('/google/callback', (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/cms-access?error=oauth_failed' }, (err, user) => {

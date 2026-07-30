@@ -60,23 +60,6 @@ export default function AdminLogin({ authState, setAuthState }) {
     window.location.href = '/api/auth/google';
   };
 
-  const handleGoogleDevFallback = async () => {
-    try {
-      const data = await fetchJson('/auth/google-dev', { method: 'POST' });
-      if (data.success) {
-        setGoogleDone(true);
-        setAuthState(prev => ({
-          ...prev,
-          authenticated: true,
-          user: data.user
-        }));
-        setSuccessMsg('Step 1 Complete (Google Account Verified)! Please enter your Admin Password below.');
-      }
-    } catch (err) {
-      setErrorMsg(formatError(err));
-    }
-  };
-
   const handleVerifySecret = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -192,16 +175,6 @@ export default function AdminLogin({ authState, setAuthState }) {
               <span>{googleDone ? '✔ Google OAuth Verified' : 'Sign in with Google OAuth'}</span>
             </button>
 
-            {/* Local Fallback if Google Cloud Console is not configured for localhost */}
-            {!googleDone && (
-              <button
-                type="button"
-                onClick={handleGoogleDevFallback}
-                className="w-full text-center text-[11px] text-amber-400 hover:text-amber-300 py-1.5 underline decoration-amber-500/50"
-              >
-                ⚡ Local Dev / Test Mode: Complete Google Step 1 instantly
-              </button>
-            )}
           </div>
 
           <div className="relative my-4">
