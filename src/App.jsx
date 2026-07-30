@@ -17,12 +17,14 @@ import { fetchJson } from './services/api';
 
 function AppContent({ authState, setAuthState }) {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/cms-access');
+  const isNoLayoutRoute = location.pathname.startsWith('/admin') || 
+                          location.pathname.startsWith('/cms-access') || 
+                          location.pathname.startsWith('/author/');
 
   return (
     <div className="flex flex-col min-h-screen relative transition-colors">
       
-      {!isAdminRoute && (
+      {!isNoLayoutRoute && (
         <>
           <FirstVisitPopup />
           <PushNotificationModal />
@@ -58,7 +60,7 @@ function AppContent({ authState, setAuthState }) {
         </Routes>
       </div>
 
-      {!isAdminRoute && <Footer />}
+      {!isNoLayoutRoute && <Footer />}
 
     </div>
   );
