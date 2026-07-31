@@ -138,7 +138,7 @@ export default function PostDetail() {
       <SeoHead
         title={`${post.seoTitle || post.title} — Zikr & Fikr`}
         description={post.seoDescription || post.summary}
-        image={post.cover_image}
+        image={post.coverImage || post.cover_image}
         url={currentUrl}
       />
 
@@ -251,10 +251,10 @@ export default function PostDetail() {
           </div>
 
           {/* Cover Image if present */}
-          {post.cover_image && (
+          {(post.coverImage || post.cover_image) && (
             <div className="rounded-2xl overflow-hidden shadow border border-[#d0d7de] dark:border-[#30363d] max-h-[440px]">
               <img
-                src={post.cover_image}
+                src={post.coverImage || post.cover_image}
                 alt={post.title || 'Islamic Reflection Image'}
                 className="w-full h-full object-cover"
                 onError={(e) => { e.target.src = '/assets/default-cover.svg'; }}

@@ -25,10 +25,10 @@ export default function PostCard({ post }) {
       <div>
 
         {/* Cover Image / Category Header */}
-        {!isTextOnly && post.cover_image ? (
+        {!isTextOnly && (post.coverImage || post.cover_image) ? (
           <div className="relative h-48 sm:h-52 overflow-hidden bg-[#f6f8fa] dark:bg-[#0d1117]">
             <img
-              src={post.cover_image}
+              src={post.coverImage || post.cover_image}
               alt={post.title || 'Islamic Reflection'}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={(e) => { e.target.src = '/assets/default-cover.svg'; }}
