@@ -374,10 +374,16 @@ router.get('/google', (req, res, next) => {
 
 // Google OAuth Callback
 router.get('/google/callback', (req, res, next) => {
-  passport.authenticate('google', { failureRedirect: '/cms-access?error=oauth_failed' }, (err, user) => {
-    if (err || !user) {
-      return res.redirect('/cms-access?error=oauth_failed');
+  passport.authenticate('google', (err, user, info) => {
+    if (err) {
+      console.error("Google OAuth Error:", err);
+      return res.redirect(`/cms-access?error=oauth_failed&details=${encodeURIComponent(err.message || 'unknown_error')}`);
     }
+    if (!user) {
+      console.warn("Google OAuth Failed: No user returned. Info:", info);
+      return res.redirect('/cms-access?error=oauth_failed&details=no_user');
+    }
+    
     req.logIn(user, (loginErr) => {
       if (loginErr) return res.redirect('/cms-access?error=session_error');
       

@@ -36,7 +36,8 @@ app.use(cookieSession({
   keys: [process.env.SESSION_SECRET || 'islamic_blog_secret_key_2026'],
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production'
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
 }));
 
 // Passport Setup
@@ -92,22 +93,14 @@ passport.deserializeUser(async (id, done) => {
 const googleClientId = process.env.GOOGLE_CLIENT_ID || 'dummy_google_client_id';
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || 'dummy_google_client_secret';
 
-// Use Vercel URL in production to prevent localhost redirects
-let googleCallbackURL = process.env.GOOGLE_CALLBACK_URL;
-if (!googleCallbackURL) {
-  if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
-    googleCallbackURL = 'https://zikr-and-fikr.vercel.app/api/auth/google/callback';
-  } else {
-    googleCallbackURL = 'http://localhost:5000/api/auth/google/callback';
-  }
-}
-
-passport.use(new GoogleStrategy({
-  clientID: googleClientId,
-  clientSecret: googleClientSecret,
-  callbackURL: googleCallbackURL,
-  scope: ['profile', 'email']
-}, async (accessToken, refreshToken, profile, done) => {
+  // Google OAuth Strategy
+  passport.use(new GoogleStrategy({
+    clientID: googleClientId,
+    clientSecret: googleClientSecret,
+    callbackURL: '/api/auth/google/callback',
+    proxy: true,
+    scope: ['profile', 'email']
+  }, async (accessToken, refreshToken, profile, done) => {
   try {
     const googleId = profile.id;
     const email = profile.emails && profile.emails[0] ? profile.emails[0].value : `user_${googleId}@ceimran.in`;
