@@ -35,7 +35,7 @@ export default function AdminLogin({ authState, setAuthState }) {
     const errParam = queryParams.get('error');
     if (errParam) {
       if (errParam === 'oauth_failed' || errParam === 'redirect_uri_mismatch') {
-        setErrorMsg('Google OAuth failed or configuration missing. Use Local Dev Mode below to complete Step 1.');
+        setErrorMsg('Google OAuth failed or configuration missing. Please try again or check Vercel environment variables.');
       } else {
         setErrorMsg(formatError(errParam));
       }
