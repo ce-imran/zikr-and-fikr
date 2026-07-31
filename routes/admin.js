@@ -163,14 +163,12 @@ router.post('/posts', requireAdminAuth, async (req, res) => {
     const postStatus = req.body.status || 'draft';
     const publishedAt = postStatus === 'published' ? new Date().toISOString() : null;
 
-
-
     const candidatePayloads = [
-      // 1. Full payload
+      // 1. Exact schema match payload
       {
         title: postTitle,
         slug: uniqueSlug,
-        summary: summary || (finalContentType === 'image_only' ? 'Visual Reflection' : (finalBody ? finalBody.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '')),
+        excerpt: summary || (finalContentType === 'image_only' ? 'Visual Reflection' : (finalBody ? finalBody.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '')),
         content: finalBody,
         cover_image: finalImageUrl,
         category: finalCategory,
@@ -178,43 +176,18 @@ router.post('/posts', requireAdminAuth, async (req, res) => {
         status: postStatus,
         published_at: publishedAt,
         author_id: authorId,
-        user_id: authorId,
-        created_by: authorId,
-        read_time: readTime,
         views: 0,
         likes: 0
       },
-      // 2. Standard columns without optional views/likes/read_time
+      // 2. Fallback (no views/likes)
       {
         title: postTitle,
         slug: uniqueSlug,
-        summary: summary || (finalContentType === 'image_only' ? 'Visual Reflection' : (finalBody ? finalBody.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '')),
+        excerpt: summary || (finalContentType === 'image_only' ? 'Visual Reflection' : (finalBody ? finalBody.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '')),
         content: finalBody,
         cover_image: finalImageUrl,
         category: finalCategory,
         tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(t => t.trim()) : ['Islamic']),
-        status: postStatus,
-        published_at: publishedAt,
-        author_id: authorId,
-        user_id: authorId
-      },
-      // 3. Core fields
-      {
-        title: postTitle,
-        slug: uniqueSlug,
-        summary: summary || (finalBody ? finalBody.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : ''),
-        content: finalBody,
-        cover_image: finalImageUrl,
-        category: finalCategory,
-        status: postStatus,
-        published_at: publishedAt,
-        author_id: authorId
-      },
-      // 4. Absolute minimal
-      {
-        title: postTitle,
-        slug: uniqueSlug,
-        content: finalBody,
         status: postStatus,
         published_at: publishedAt,
         author_id: authorId
@@ -354,39 +327,19 @@ const handlePostUpdate = async (req, res) => {
     const publishedAt = postStatus === 'published' ? new Date().toISOString() : null;
 
     const candidateUpdates = [
-      // 1. Full payload
-      {
-        title: req.body.title,
-        content: req.body.content || req.body.body,
-        summary: req.body.summary || req.body.excerpt,
-        excerpt: req.body.excerpt || req.body.summary,
-        cover_image: req.body.cover_image || req.body.coverImage || req.body.image_url,
-        category: req.body.category,
-        tags: req.body.tags ? (Array.isArray(req.body.tags) ? req.body.tags : req.body.tags.split(',').map(t => t.trim())) : undefined,
-        status: postStatus,
-        published_at: publishedAt,
-        updated_at: new Date().toISOString()
-      },
-      // 2. Without summary/excerpt if column missing
-      {
-        title: req.body.title,
-        content: req.body.content || req.body.body,
-        cover_image: req.body.cover_image || req.body.coverImage || req.body.image_url,
-        category: req.body.category,
-        tags: req.body.tags ? (Array.isArray(req.body.tags) ? req.body.tags : req.body.tags.split(',').map(t => t.trim())) : undefined,
-        status: postStatus,
-        published_at: publishedAt,
-        updated_at: new Date().toISOString()
-      },
-      // 3. Core fields (title, content, status, published_at, updated_at)
-      {
-        title: req.body.title,
-        content: req.body.content || req.body.body,
-        status: postStatus,
-        published_at: publishedAt,
-        updated_at: new Date().toISOString()
-      }
-    ];
+        // 1. Exact schema match payload
+        {
+          title: req.body.title,
+          content: req.body.content || req.body.body,
+          excerpt: req.body.summary || req.body.excerpt,
+          cover_image: req.body.coverImage || req.body.cover_image || req.body.image_url,
+          category: req.body.category,
+          tags: req.body.tags ? (Array.isArray(req.body.tags) ? req.body.tags : req.body.tags.split(',').map(t => t.trim())) : undefined,
+          status: postStatus,
+          published_at: publishedAt,
+          updated_at: new Date().toISOString()
+        }
+      ];
 
     let data = null;
     let error = null;
