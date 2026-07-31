@@ -41,6 +41,20 @@ app.use(cookieSession({
 }));
 
 // Passport Setup
+// Fix for Passport 0.6.0+ requiring session.regenerate and session.save
+app.use((req, res, next) => {
+  if (req.session && !req.session.regenerate) {
+    req.session.regenerate = (cb) => {
+      cb();
+    };
+  }
+  if (req.session && !req.session.save) {
+    req.session.save = (cb) => {
+      cb();
+    };
+  }
+  next();
+});
 app.use(passport.initialize());
 app.use(passport.session());
 
