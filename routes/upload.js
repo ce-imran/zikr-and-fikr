@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { supabase } = require('../config/supabase');
+const { requireAdminAuth } = require('../middleware/auth');
 
 // POST /api/upload - Handle image upload directly to Supabase Storage via Base64 JSON
-router.post('/', express.json({ limit: '10mb' }), async (req, res) => {
+router.post('/', requireAdminAuth, express.json({ limit: '10mb' }), async (req, res) => {
   try {
     const { imageBase64, filename, mimeType } = req.body;
     if (!imageBase64) {

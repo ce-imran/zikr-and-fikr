@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getPublicKey, broadcastNotification } = require('../services/pushService');
 const { supabase } = require('../config/supabase');
+const { requireAdminAuth } = require('../middleware/auth');
 
 // GET /api/notifications/vapid-public-key
 router.get('/vapid-public-key', (req, res) => {
@@ -50,8 +51,8 @@ router.post('/subscribe', async (req, res) => {
   }
 });
 
-// POST /api/notifications/test - Trigger test push notification
-router.post('/test', async (req, res) => {
+// POST /api/notifications/test - Trigger a test notification (Admin Only)
+router.post('/test', requireAdminAuth, async (req, res) => {
   try {
     const result = await broadcastNotification({
       title: '🌟 Welcome to Daily Islamic Reflections',
