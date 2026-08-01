@@ -26,7 +26,7 @@ function AppContent({ authState, setAuthState }) {
   return (
     <div className="flex flex-col min-h-screen relative transition-colors">
       
-      {!isAdminRoute && (
+      {!isNoLayoutRoute && (
         <>
           <FirstVisitPopup />
           <PushNotificationModal />

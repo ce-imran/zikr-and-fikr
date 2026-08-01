@@ -70,10 +70,10 @@ export default function FloatingActionGroup() {
         {/* Ask Fatwa Button */}
         <button
           onClick={handleOpenFatwaModal}
-          className="group flex items-center space-x-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 px-4 py-3 rounded-full shadow-xl hover:scale-105 transition-all duration-200 border border-amber-400/60 font-bold text-xs animate-pulse-gold"
+          className="group flex items-center space-x-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 px-4 py-3 rounded-full shadow-xl hover:shadow-[0_0_20px_rgba(245,158,11,0.6)] hover:scale-110 hover:-translate-y-1 transition-all duration-300 border border-amber-400/60 font-bold text-xs animate-pulse-gold"
           title="Ask a Fatwa / Islamic Question"
         >
-          <HelpCircle className="w-5 h-5 text-stone-950 group-hover:rotate-12 transition-transform" />
+          <HelpCircle className="w-5 h-5 text-stone-950" />
           <span>Ask Fatwa</span>
         </button>
       </div>
