@@ -66,7 +66,7 @@ export default function PostCard({ post }) {
           )}
 
           {/* Excerpt / Summary */}
-          {!isImageOnly && post.summary && (
+          {!isImageOnly && post.summary && post.summary.trim() !== '...' && (
             <p className="text-[#57606a] dark:text-[#8b949e] text-xs sm:text-sm font-sans line-clamp-3 leading-relaxed">
               {post.summary}
             </p>

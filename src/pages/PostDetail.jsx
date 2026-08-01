@@ -190,7 +190,7 @@ export default function PostDetail() {
             )}
 
             {/* Excerpt */}
-            {post.summary && (
+            {post.summary && post.summary.trim() !== '...' && post.postType !== 'image_only' && (
               <p className="text-base sm:text-lg text-[#57606a] dark:text-[#c9d1d9] font-sans italic leading-relaxed border-l-4 border-amber-500 pl-4 bg-[#f6f8fa] dark:bg-[#0d1117] py-2.5 pr-3 rounded-r-xl">
                 "{post.summary}"
               </p>

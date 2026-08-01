@@ -11,6 +11,32 @@ export default function QazaTracker({ authState }) {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  const totalMissed = Object.values(tracker).reduce((a, b) => a + (Number(b) || 0), 0);
+
+  const getEstimation = (count) => {
+    if (!count) return null;
+    const years = Math.floor(count / 365);
+    const months = Math.floor((count % 365) / 30);
+    const days = (count % 365) % 30;
+    
+    let parts = [];
+    if (years > 0) parts.push(`${years}y`);
+    if (months > 0) parts.push(`${months}m`);
+    if (days > 0 && years === 0) parts.push(`${days}d`);
+    
+    return parts.length > 0 ? parts.join(' ') : null;
+  };
+
+  const handleReset = () => {
+    const newTracker = { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0, witr: 0 };
+    setTracker(newTracker);
+    saveTracker(newTracker);
+    setShowResetConfirm(false);
+    setMessage('Tracker has been reset successfully.');
+    setTimeout(() => setMessage(''), 3000);
+  };
 
   const prayers = [
     { key: 'fajr', label: 'Fajr', icon: <Sunrise className="w-5 h-5 text-amber-500" /> },
@@ -107,6 +133,21 @@ export default function QazaTracker({ authState }) {
           <p className="text-gray-600 dark:text-gray-400 font-medium mb-6">
             Keep track of your missed prayers and fulfill your obligations.
           </p>
+          
+          <div className="flex flex-col items-center space-y-4 mb-6">
+            <div className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-6 py-3 rounded-2xl font-bold text-xl shadow-sm border border-amber-200 dark:border-amber-800/50">
+              Total Qaza Remaining: <span className="text-2xl ml-2">{totalMissed}</span>
+            </div>
+            {totalMissed > 0 && (
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium underline underline-offset-2"
+              >
+                Reset All Progress
+              </button>
+            )}
+          </div>
+
           {!authState?.authenticated && (
             <button
               onClick={() => window.location.href = '/api/auth/google?returnTo=/qaza'}
@@ -130,33 +171,55 @@ export default function QazaTracker({ authState }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {prayers.map((prayer) => (
-            <div key={prayer.key} className="bg-white dark:bg-[#161b22] p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center justify-center transition-all hover:shadow-md hover:border-amber-500/30">
+            <div key={prayer.key} className="bg-white dark:bg-[#161b22] p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col items-center justify-center transition-all hover:shadow-md hover:border-amber-500/30 relative">
               <div className="p-3 bg-amber-50 dark:bg-[#0d1117] rounded-full mb-4 ring-1 ring-amber-100 dark:ring-gray-800 shadow-inner">
                 {prayer.icon}
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 capitalize">{prayer.label}</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-6 font-medium uppercase tracking-wider">Missed Prayers</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">Missed Prayers</p>
+              <div className="h-5 mb-5 text-amber-600 dark:text-amber-400 font-semibold text-sm">
+                {getEstimation(tracker[prayer.key]) && `~${getEstimation(tracker[prayer.key])}`}
+              </div>
               
-              <div className="flex items-center space-x-6">
-                <button 
-                  onClick={() => updateCount(prayer.key, -1)}
-                  disabled={tracker[prayer.key] === 0 || saving}
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                >
-                  <Minus className="w-5 h-5" />
-                </button>
-                
-                <span className="text-3xl font-bold text-gray-900 dark:text-gray-100 w-12 text-center tabular-nums">
-                  {tracker[prayer.key] || 0}
-                </span>
+              <div className="flex flex-col items-center w-full">
+                <div className="flex items-center justify-between w-full px-4 mb-4">
+                  <button 
+                    onClick={() => updateCount(prayer.key, -1)}
+                    disabled={tracker[prayer.key] === 0 || saving}
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-red-100 dark:hover:bg-red-900/40 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <Minus className="w-5 h-5" />
+                  </button>
+                  
+                  <span className="text-4xl font-bold text-gray-900 dark:text-gray-100 text-center tabular-nums w-16">
+                    {tracker[prayer.key] || 0}
+                  </span>
 
-                <button 
-                  onClick={() => updateCount(prayer.key, 1)}
-                  disabled={saving}
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-gray-700 dark:text-gray-300 disabled:opacity-30 transition-colors"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
+                  <button 
+                    onClick={() => updateCount(prayer.key, 1)}
+                    disabled={saving}
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-gray-700 dark:text-gray-300 disabled:opacity-30 transition-colors"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                <div className="flex space-x-2 mt-2">
+                  <button 
+                    onClick={() => updateCount(prayer.key, 10)}
+                    disabled={saving}
+                    className="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors border border-emerald-200 dark:border-emerald-800/30"
+                  >
+                    +10
+                  </button>
+                  <button 
+                    onClick={() => updateCount(prayer.key, 30)}
+                    disabled={saving}
+                    className="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors border border-emerald-200 dark:border-emerald-800/30"
+                  >
+                    +30
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -193,6 +256,32 @@ export default function QazaTracker({ authState }) {
                 className="w-full py-3 px-4 rounded-xl font-medium text-sm transition-all text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               >
                 Continue Offline
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Confirmation Popup */}
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-[#161b22] border border-gray-200 dark:border-[#30363d] max-w-sm w-full p-6 sm:p-8 rounded-3xl shadow-2xl relative space-y-5 transform scale-100 animate-in zoom-in-95 duration-300">
+            <h3 className="text-xl font-bold text-red-600 dark:text-red-500 text-center">Reset Tracker?</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 text-center leading-relaxed">
+              Are you sure you want to reset all your Qaza Namaz records to zero? This action cannot be undone.
+            </p>
+            <div className="pt-2 space-y-3">
+              <button
+                onClick={handleReset}
+                className="w-full flex items-center justify-center py-3 px-4 rounded-xl font-semibold text-sm transition-all bg-red-600 hover:bg-red-700 text-white shadow-md"
+              >
+                Yes, Reset All
+              </button>
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="w-full py-3 px-4 rounded-xl font-medium text-sm transition-all text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-[#0d1117]"
+              >
+                Cancel
               </button>
             </div>
           </div>
