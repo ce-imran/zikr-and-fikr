@@ -60,11 +60,21 @@ export default function QazaTracker({ authState }) {
   const loadTracker = async () => {
     setLoading(true);
     if (authState?.authenticated) {
-      const res = await fetchJson('/qaza');
-      if (res.success && res.tracker) {
-        setTracker(res.tracker);
-        // Sync local storage just in case
-        localStorage.setItem('local_qaza_tracker', JSON.stringify(res.tracker));
+      try {
+        const res = await fetchJson('/qaza');
+        if (res.success && res.tracker) {
+          setTracker(res.tracker);
+          // Sync local storage just in case
+          localStorage.setItem('local_qaza_tracker', JSON.stringify(res.tracker));
+        }
+      } catch (err) {
+        console.warn("Could not fetch tracker from server, falling back to local storage.", err);
+        const localData = localStorage.getItem('local_qaza_tracker');
+        if (localData) {
+          try {
+            setTracker(JSON.parse(localData));
+          } catch (e) { }
+        }
       }
     } else {
       const localData = localStorage.getItem('local_qaza_tracker');
