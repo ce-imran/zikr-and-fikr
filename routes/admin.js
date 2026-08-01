@@ -351,6 +351,8 @@ const handlePostUpdate = async (req, res) => {
         .update(payload)
         .eq('id', req.params.id)
         .select();
+        
+      console.log('Update Attempt Result:', resAttempt);
 
       if (!resAttempt.error && resAttempt.data && resAttempt.data.length > 0) {
         data = resAttempt.data;
@@ -366,7 +368,7 @@ const handlePostUpdate = async (req, res) => {
     }
 
     if (!data || data.length === 0) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(403).json({ error: 'Post not found, or Update blocked by Supabase RLS. Please ensure SUPABASE_SERVICE_ROLE_KEY is added to Vercel Environment Variables.' });
     }
 
     const updatedRow = data[0];
@@ -438,7 +440,7 @@ router.delete('/posts/:id', requireAdminAuth, async (req, res) => {
       .maybeSingle();
 
     if (error || !data) {
-      return res.status(404).json({ success: false, message: 'Post not found.' });
+      return res.status(403).json({ success: false, message: 'Delete blocked by Supabase RLS. Please ensure SUPABASE_SERVICE_ROLE_KEY is in Vercel Environment Variables.' });
     }
 
     return res.json({ success: true, message: 'Post deleted successfully.' });

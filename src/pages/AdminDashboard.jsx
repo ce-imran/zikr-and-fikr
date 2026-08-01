@@ -326,7 +326,7 @@ export default function AdminDashboard({ authState, setAuthState }) {
         loadAdminData();
       }
     } catch (err) {
-      setMessage({ type: 'error', text: 'Failed to delete post.' });
+      setMessage({ type: 'error', text: err.message || 'Failed to delete post.' });
     }
   };
 
