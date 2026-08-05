@@ -316,14 +316,14 @@ const handlePostUpdate = async (req, res) => {
     }
 
     const currentUserId = req.user?.id || req.user?._id || req.session?.adminUser?.id || req.session?.adminUser?._id;
-    const postAuthorId = existingPost.author_id || existingPost.user_id || existingPost.created_by;
+    const postAuthorId = existingPost.author_id;
+    const isSuperAdmin = req.session && req.session.secretVerified === true;
 
-    if (existingPost.author_id !== undefined && req.user && req.user.id) {
-      if (existingPost.author_id !== req.user.id) {
-        return res.status(403).json({ error: 'Unauthorized' });
+    // Allow super admin or original author to edit
+    if (!isSuperAdmin) {
+      if (postAuthorId && currentUserId && String(postAuthorId) !== String(currentUserId)) {
+        return res.status(403).json({ success: false, message: 'Unauthorized: You can only edit your own posts.' });
       }
-    } else if (postAuthorId && currentUserId && String(postAuthorId) !== String(currentUserId)) {
-      return res.status(403).json({ error: 'Unauthorized' });
     }
 
     const postStatus = req.body.status || 'draft';
@@ -428,14 +428,14 @@ router.delete('/posts/:id', requireAdminAuth, async (req, res) => {
     }
 
     const currentUserId = req.user?.id || req.user?._id || req.session?.adminUser?.id || req.session?.adminUser?._id;
-    const postAuthorId = existingPost.author_id || existingPost.user_id || existingPost.created_by;
+    const postAuthorId = existingPost.author_id;
+    const isSuperAdmin = req.session && req.session.secretVerified === true;
 
-    if (existingPost.author_id !== undefined && req.user && req.user.id) {
-      if (existingPost.author_id !== req.user.id) {
-        return res.status(403).json({ success: false, message: 'Unauthorized' });
+    // Allow super admin or original author to delete
+    if (!isSuperAdmin) {
+      if (postAuthorId && currentUserId && String(postAuthorId) !== String(currentUserId)) {
+        return res.status(403).json({ success: false, message: 'Unauthorized: You can only delete your own posts.' });
       }
-    } else if (postAuthorId && currentUserId && String(postAuthorId) !== String(currentUserId)) {
-      return res.status(403).json({ success: false, message: 'Unauthorized' });
     }
 
     const { data, error } = await supabase
