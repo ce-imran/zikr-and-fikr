@@ -266,7 +266,8 @@ export default function PostDetail() {
           {/* Article Body Content */}
           {post.content && (
             <div
-              className="font-sans text-lg leading-loose text-[#24292f] dark:text-[#c9d1d9] space-y-6 prose-reading"
+              dir="auto"
+              className="font-sans text-lg leading-loose text-[#24292f] dark:text-[#c9d1d9] space-y-6 prose-reading whitespace-pre-wrap break-words"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
             />
           )}

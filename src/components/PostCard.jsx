@@ -60,14 +60,14 @@ export default function PostCard({ post }) {
 
           {/* Title */}
           {post.title && (
-            <h3 className="font-nastaleeq-title text-xl sm:text-2xl font-bold text-[#24292f] dark:text-[#f0f6fc] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug line-clamp-2 pb-1">
+            <h3 dir="auto" className="font-nastaleeq-title text-xl sm:text-2xl font-bold text-[#24292f] dark:text-[#f0f6fc] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug line-clamp-2 pb-1 whitespace-pre-wrap break-words">
               {post.title}
             </h3>
           )}
 
           {/* Excerpt / Summary */}
           {!isImageOnly && post.summary && post.summary.trim() !== '...' && (
-            <p className="text-[#57606a] dark:text-[#8b949e] text-xs sm:text-sm font-sans line-clamp-3 leading-relaxed">
+            <p dir="auto" className="text-[#57606a] dark:text-[#8b949e] text-xs sm:text-sm font-sans line-clamp-3 leading-relaxed whitespace-pre-wrap break-words">
               {post.summary}
             </p>
           )}
