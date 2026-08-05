@@ -295,6 +295,11 @@ const handleAvatarUpload = async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded.' });
     }
 
+    const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+    if (!mimeType || !ALLOWED_MIME_TYPES.includes(mimeType)) {
+      return res.status(400).json({ error: 'Invalid file type. Only JPG, PNG, WEBP, GIF, and SVG are allowed.' });
+    }
+
     if (!supabase) {
       console.error('Supabase Storage Error: Supabase client is not connected.');
       return res.status(500).json({ error: 'Supabase client is not connected.' });

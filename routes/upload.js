@@ -11,6 +11,11 @@ router.post('/', requireAdminAuth, express.json({ limit: '10mb' }), async (req, 
       return res.status(400).json({ success: false, message: 'No file uploaded.' });
     }
 
+    const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+    if (!mimeType || !ALLOWED_MIME_TYPES.includes(mimeType)) {
+      return res.status(400).json({ success: false, message: 'Invalid file type. Only JPG, PNG, WEBP, GIF, and SVG are allowed.' });
+    }
+
     if (!supabase) {
       return res.status(500).json({ success: false, message: 'Supabase client is not connected.' });
     }

@@ -6,6 +6,24 @@ const { admin, isFirebaseAdminConfigured } = require('../services/firebaseAdmin'
 const { supabase, formatPost, toSupabasePostPayload, maskedKey } = require('../config/supabase');
 const { requireAdminAuth } = require('../middleware/auth');
 
+const deleteSupabaseFile = async (coverUrl) => {
+  if (!coverUrl) return;
+  try {
+    const bucketName = 'profile_pictures';
+    const marker = `/storage/v1/object/public/${bucketName}/`;
+    if (coverUrl.includes(marker)) {
+      const filePath = coverUrl.split(marker)[1];
+      if (filePath) {
+        const { error } = await supabase.storage.from(bucketName).remove([filePath]);
+        if (error) console.error(`Failed to delete storage file ${filePath}:`, error.message);
+        else console.log(`Successfully deleted storage file ${filePath}`);
+      }
+    }
+  } catch (err) {
+    console.error('deleteSupabaseFile error:', err.message);
+  }
+};
+
 // GET /api/admin/stats - CMS Overview Stats
 router.get('/stats', requireAdminAuth, async (req, res) => {
   try {
@@ -115,6 +133,10 @@ router.post('/posts', requireAdminAuth, async (req, res) => {
         const mimeTypeMatch = finalImageUrl.match(/data:(image\/[a-zA-Z+]+);base64,/);
         if (mimeTypeMatch && mimeTypeMatch[1]) {
           const mimeType = mimeTypeMatch[1];
+          const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+          if (!ALLOWED_MIME_TYPES.includes(mimeType)) {
+            return res.status(400).json({ error: 'Invalid file type. Only JPG, PNG, WEBP, GIF, and SVG are allowed.' });
+          }
           const base64Data = finalImageUrl.replace(/^data:image\/\w+;base64,/, '');
           const buffer = Buffer.from(base64Data, 'base64');
           const ext = mimeType.split('/')[1];
@@ -304,7 +326,7 @@ const handlePostUpdate = async (req, res) => {
     // Verify ownership
     const { data: existingPost, error: fetchError } = await supabase
       .from('posts')
-      .select('id, author_id')
+      .select('id, author_id, cover_image')
       .eq('id', req.params.id)
       .maybeSingle();
 
@@ -328,6 +350,7 @@ const handlePostUpdate = async (req, res) => {
 
     const postStatus = req.body.status || 'draft';
     const publishedAt = postStatus === 'published' ? new Date().toISOString() : null;
+    const newCoverImage = req.body.coverImage || req.body.cover_image || req.body.image_url;
 
     const candidateUpdates = [
         // 1. Exact schema match payload
@@ -335,7 +358,7 @@ const handlePostUpdate = async (req, res) => {
           title: req.body.title,
           content: req.body.content || req.body.body,
           excerpt: req.body.summary || req.body.excerpt,
-          cover_image: req.body.coverImage || req.body.cover_image || req.body.image_url,
+          cover_image: newCoverImage,
           category: req.body.category,
           tags: req.body.tags ? (Array.isArray(req.body.tags) ? req.body.tags : req.body.tags.split(',').map(t => t.trim())) : undefined,
           status: postStatus,
@@ -360,6 +383,12 @@ const handlePostUpdate = async (req, res) => {
       if (!resAttempt.error && resAttempt.data && resAttempt.data.length > 0) {
         data = resAttempt.data;
         error = null;
+        
+        // If the cover image has changed, delete the old one from storage
+        if (newCoverImage && existingPost.cover_image && newCoverImage !== existingPost.cover_image) {
+          await deleteSupabaseFile(existingPost.cover_image);
+        }
+        
         break;
       }
       error = resAttempt.error;
@@ -416,7 +445,7 @@ router.delete('/posts/:id', requireAdminAuth, async (req, res) => {
     // Verify ownership
     const { data: existingPost, error: fetchError } = await supabase
       .from('posts')
-      .select('id, author_id')
+      .select('id, author_id, cover_image')
       .eq('id', req.params.id)
       .maybeSingle();
 
@@ -447,6 +476,11 @@ router.delete('/posts/:id', requireAdminAuth, async (req, res) => {
 
     if (error || !data) {
       return res.status(403).json({ success: false, message: `Delete failed. Key used: ${maskedKey}. Error: ${JSON.stringify(error)}` });
+    }
+
+    // Delete the associated cover image from storage
+    if (existingPost.cover_image) {
+      await deleteSupabaseFile(existingPost.cover_image);
     }
 
     return res.json({ success: true, message: 'Post deleted successfully.' });

@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchJson } from '../services/api';
 import SeoHead from '../components/SeoHead';
 import { ArrowLeft, Share2, Check, Heart, Eye, Calendar, MessageSquare } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 export default function PostDetail() {
   const { slug } = useParams();
@@ -266,7 +267,7 @@ export default function PostDetail() {
           {post.content && (
             <div
               className="font-sans text-lg leading-loose text-[#24292f] dark:text-[#c9d1d9] space-y-6 prose-reading"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
             />
           )}
 
