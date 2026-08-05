@@ -2,8 +2,8 @@ const webPush = require('web-push');
 const { supabase, formatSubscription } = require('../config/supabase');
 const { sendFirebaseMulticast, isFirebaseAdminConfigured } = require('./firebaseAdmin');
 
-let publicKey = process.env.VAPID_PUBLIC_KEY;
-let privateKey = process.env.VAPID_PRIVATE_KEY;
+let publicKey = process.env.VAPID_PUBLIC_KEY || 'BNb23_jgVaE4Ok0rEvgCC6P3MHBr1KgaHhFISZZj5eCpD7VK8MG0F4P7ioOOCQFSN67le0OabcVW-iKTtvDl7LY';
+let privateKey = process.env.VAPID_PRIVATE_KEY || '5ARhxO3QpfifJ70Ab_k_02ZR2mVizEPpI0GWXZQ5KJ0';
 const mailto = process.env.VAPID_MAILTO || 'mailto:admin@ceimran.in';
 
 function isValidVapidKey(key) {
@@ -11,10 +11,7 @@ function isValidVapidKey(key) {
 }
 
 if (!isValidVapidKey(publicKey) || !isValidVapidKey(privateKey)) {
-  const vapidKeys = webPush.generateVAPIDKeys();
-  publicKey = vapidKeys.publicKey;
-  privateKey = vapidKeys.privateKey;
-  console.log('⚡ Generated valid runtime VAPID keypair for Web Push Notifications.');
+  console.warn('⚠️ WARNING: Using fallback VAPID keys. For production, please set VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY environment variables.');
 }
 
 try {
