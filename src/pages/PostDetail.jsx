@@ -268,7 +268,7 @@ export default function PostDetail() {
             <div
               dir="auto"
               className="font-sans text-lg leading-loose text-[#24292f] dark:text-[#c9d1d9] space-y-6 prose-reading whitespace-pre-wrap break-words"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content.replace(/&nbsp;/g, ' ')) }}
             />
           )}
 

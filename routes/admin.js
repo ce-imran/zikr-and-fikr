@@ -120,11 +120,15 @@ router.post('/posts', requireAdminAuth, async (req, res) => {
       status
     } = req.body;
 
+    const safeBody = (body || '').replace(/&nbsp;/g, ' ');
+    const safeContent = (content || '').replace(/&nbsp;/g, ' ');
+    const safeSummary = (summary || '').replace(/&nbsp;/g, ' ');
+
     const finalContentType = ['text_only', 'image_only', 'image_text'].includes(content_type || postType)
       ? (content_type || postType)
       : 'image_text';
 
-    const finalBody = body || content || (finalContentType === 'image_only' ? 'Visual Reflection' : 'Daily Islamic Reflection Content');
+    const finalBody = safeBody || safeContent || (finalContentType === 'image_only' ? 'Visual Reflection' : 'Daily Islamic Reflection Content');
     let finalImageUrl = image_url || coverImage || '/assets/default-cover.svg';
 
     // If coverImage is a base64 string, upload it to Supabase Storage
@@ -351,13 +355,16 @@ const handlePostUpdate = async (req, res) => {
     const postStatus = req.body.status || 'draft';
     const publishedAt = postStatus === 'published' ? new Date().toISOString() : null;
     const newCoverImage = req.body.coverImage || req.body.cover_image || req.body.image_url;
+    
+    const safeContent = (req.body.content || req.body.body || '').replace(/&nbsp;/g, ' ');
+    const safeSummary = (req.body.summary || req.body.excerpt || '').replace(/&nbsp;/g, ' ');
 
     const candidateUpdates = [
         // 1. Exact schema match payload
         {
           title: req.body.title,
-          content: req.body.content || req.body.body,
-          excerpt: req.body.summary || req.body.excerpt,
+          content: safeContent,
+          excerpt: safeSummary,
           cover_image: newCoverImage,
           category: req.body.category,
           tags: req.body.tags ? (Array.isArray(req.body.tags) ? req.body.tags : req.body.tags.split(',').map(t => t.trim())) : undefined,
