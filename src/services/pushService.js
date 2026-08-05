@@ -72,10 +72,6 @@ export async function requestPushPermissionAndSubscribe() {
     }
 
     return true;
-  } catch (err) {
-    console.error('Error subscribing to push notifications:', err);
-    throw err;
-  }
 }
 
 export async function isPushSubscribed() {
