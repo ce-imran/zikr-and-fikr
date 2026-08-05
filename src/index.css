@@ -165,8 +165,8 @@
 .ql-editor { outline: none; }
 
 .ql-font-inter { font-family: 'Inter', sans-serif; }
-.ql-font-jameel-noori-regular { font-family: 'Jameel Noori Nastaleeq Regular', serif; font-size: 1.2em; }
-.ql-font-jameel-noori-kasheeda { font-family: 'Jameel Noori Nastaleeq Kasheeda', serif; font-size: 1.2em; }
+.ql-font-jameel-noori-regular { font-family: 'Inter', 'Jameel Noori Nastaleeq Regular', serif; font-size: 1.2em; }
+.ql-font-jameel-noori-kasheeda { font-family: 'Inter', 'Jameel Noori Nastaleeq Kasheeda', serif; font-size: 1.2em; }
 .ql-picker.ql-font .ql-picker-label[data-value='inter']::before,
 .ql-picker.ql-font .ql-picker-item[data-value='inter']::before { content: 'English (Inter)'; }
 .ql-picker.ql-font .ql-picker-label[data-value='jameel-noori-regular']::before,
