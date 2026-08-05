@@ -19,7 +19,7 @@ export async function fetchJson(endpoint, options = {}) {
     const res = await fetch(`${API_BASE}${endpoint}`, config);
     const data = await res.json();
     if (!res.ok) {
-      throw new Error(data.message || `Request failed with status ${res.status}`);
+      throw new Error(data.error || data.message || `Request failed with status ${res.status}`);
     }
     return data;
   } catch (err) {

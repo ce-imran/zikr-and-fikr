@@ -3,6 +3,7 @@ const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || '';
+const maskedKey = supabaseServiceKey ? `${supabaseServiceKey.substring(0, 15)}...${supabaseServiceKey.substring(supabaseServiceKey.length - 5)}` : 'MISSING';
 
 let supabase = null;
 
@@ -37,7 +38,7 @@ function formatPost(row) {
     id: row.id,
     author_id: row.author_id || row.user_id || row.created_by,
     user_id: row.user_id || row.author_id || row.created_by,
-    postType: row.post_type || 'image_text',
+    postType: row.post_type || (row.content === '<p></p>' && (row.summary === 'Visual Reflection' || row.excerpt === 'Visual Reflection') ? 'image_only' : (!row.cover_image && !row.coverImage ? 'text_only' : 'image_text')),
     title: row.title || '',
     slug: row.slug || '',
     summary: row.summary || row.excerpt || '',
@@ -137,5 +138,6 @@ module.exports = {
   formatPost,
   toSupabasePostPayload,
   formatUser,
-  formatSubscription
+  formatSubscription,
+  maskedKey
 };

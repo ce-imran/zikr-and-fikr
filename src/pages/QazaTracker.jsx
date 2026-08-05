@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchJson } from '../services/api';
 import SeoHead from '../components/SeoHead';
-import { Moon, Sunrise, Sun, Sunset, Star, Plus, Minus, CheckCircle, Clock, X, LogIn } from 'lucide-react';
+import { Moon, Sunrise, Sun, Sunset, Star, Plus, Minus, CheckCircle, Clock, X, LogIn, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function QazaTracker({ authState }) {
@@ -35,6 +35,25 @@ export default function QazaTracker({ authState }) {
     saveTracker(newTracker);
     setShowResetConfirm(false);
     setMessage('Tracker has been reset successfully.');
+    setTimeout(() => setMessage(''), 3000);
+  };
+
+  const handleAddDay = (days) => {
+    const newTracker = {
+      fajr: Math.max(0, (tracker.fajr || 0) + days),
+      dhuhr: Math.max(0, (tracker.dhuhr || 0) + days),
+      asr: Math.max(0, (tracker.asr || 0) + days),
+      maghrib: Math.max(0, (tracker.maghrib || 0) + days),
+      isha: Math.max(0, (tracker.isha || 0) + days),
+      witr: Math.max(0, (tracker.witr || 0) + days),
+    };
+    setTracker(newTracker);
+    saveTracker(newTracker);
+    if (days > 0) {
+      setMessage(`Added 1 full day of missed prayers.`);
+    } else {
+      setMessage(`Alhamdulillah! Checked off 1 full day of Qaza.`);
+    }
     setTimeout(() => setMessage(''), 3000);
   };
 
@@ -148,14 +167,38 @@ export default function QazaTracker({ authState }) {
             <div className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-6 py-3 rounded-2xl font-bold text-xl shadow-sm border border-amber-200 dark:border-amber-800/50">
               Total Qaza Remaining: <span className="text-2xl ml-2">{totalMissed}</span>
             </div>
-            {totalMissed > 0 && (
+            
+            <div className="flex flex-wrap justify-center gap-3">
               <button
-                onClick={() => setShowResetConfirm(true)}
-                className="text-xs text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium underline underline-offset-2"
+                onClick={() => handleAddDay(-1)}
+                disabled={saving || totalMissed === 0}
+                className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Checked off 1 full day of Qaza"
               >
-                Reset All Progress
+                <Minus className="w-4 h-4" />
+                <span>1 Day Prayed</span>
               </button>
-            )}
+
+              <button
+                onClick={() => handleAddDay(1)}
+                disabled={saving}
+                className="inline-flex items-center space-x-1.5 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-semibold rounded-xl shadow-sm transition-colors disabled:opacity-50"
+                title="Add 1 full day of missed prayers"
+              >
+                <Plus className="w-4 h-4" />
+                <span>1 Day Missed</span>
+              </button>
+              
+              {totalMissed > 0 && (
+                <button
+                  onClick={() => setShowResetConfirm(true)}
+                  className="inline-flex items-center space-x-1.5 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 text-sm font-semibold rounded-xl border border-red-200 dark:border-red-800/30 transition-colors"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  <span>Reset All</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {!authState?.authenticated && (

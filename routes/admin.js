@@ -3,7 +3,7 @@ const router = express.Router();
 const slugify = require('slugify');
 const { broadcastNotification } = require('../services/pushService');
 const { admin, isFirebaseAdminConfigured } = require('../services/firebaseAdmin');
-const { supabase, formatPost, toSupabasePostPayload } = require('../config/supabase');
+const { supabase, formatPost, toSupabasePostPayload, maskedKey } = require('../config/supabase');
 const { requireAdminAuth } = require('../middleware/auth');
 
 // GET /api/admin/stats - CMS Overview Stats
@@ -302,14 +302,17 @@ const handlePostUpdate = async (req, res) => {
     }
 
     // Verify ownership
-    const { data: existingPost } = await supabase
+    const { data: existingPost, error: fetchError } = await supabase
       .from('posts')
-      .select('id, author_id, user_id, created_by')
+      .select('id, author_id')
       .eq('id', req.params.id)
       .maybeSingle();
 
+    if (fetchError) {
+      return res.status(500).json({ error: `Database error during fetch: ${fetchError.message}` });
+    }
     if (!existingPost) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ error: `Post not found in DB. Passed ID: "${req.params.id}"` });
     }
 
     const currentUserId = req.user?.id || req.user?._id || req.session?.adminUser?.id || req.session?.adminUser?._id;
@@ -368,7 +371,7 @@ const handlePostUpdate = async (req, res) => {
     }
 
     if (!data || data.length === 0) {
-      return res.status(403).json({ error: 'Post not found, or Update blocked by Supabase RLS. Please ensure SUPABASE_SERVICE_ROLE_KEY is added to Vercel Environment Variables.' });
+      return res.status(403).json({ error: `Update blocked by RLS. Key used: ${maskedKey}. resAttempt: ${JSON.stringify(resAttempt.error)}` });
     }
 
     const updatedRow = data[0];
@@ -411,14 +414,17 @@ router.delete('/posts/:id', requireAdminAuth, async (req, res) => {
     }
 
     // Verify ownership
-    const { data: existingPost } = await supabase
+    const { data: existingPost, error: fetchError } = await supabase
       .from('posts')
-      .select('id, author_id, user_id, created_by')
+      .select('id, author_id')
       .eq('id', req.params.id)
       .maybeSingle();
 
+    if (fetchError) {
+      return res.status(500).json({ success: false, message: `Database error during fetch: ${fetchError.message}` });
+    }
     if (!existingPost) {
-      return res.status(404).json({ success: false, message: 'Post not found.' });
+      return res.status(404).json({ success: false, message: `Post not found in DB. Passed ID: "${req.params.id}"` });
     }
 
     const currentUserId = req.user?.id || req.user?._id || req.session?.adminUser?.id || req.session?.adminUser?._id;
@@ -440,7 +446,7 @@ router.delete('/posts/:id', requireAdminAuth, async (req, res) => {
       .maybeSingle();
 
     if (error || !data) {
-      return res.status(403).json({ success: false, message: 'Delete blocked by Supabase RLS. Please ensure SUPABASE_SERVICE_ROLE_KEY is in Vercel Environment Variables.' });
+      return res.status(403).json({ success: false, message: `Delete failed. Key used: ${maskedKey}. Error: ${JSON.stringify(error)}` });
     }
 
     return res.json({ success: true, message: 'Post deleted successfully.' });

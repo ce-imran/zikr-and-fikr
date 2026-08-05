@@ -32,7 +32,6 @@
                 <ul>
                     <li><a href="/about/">About</a></li>
                     <li><a href="/posts/">Latest Post</a></li>
-                    <li><a href="#" id="ask-fatwa-btn">Ask Fatwa</a></li>
                 </ul>
             </nav>
             <div class="mobile-menu-btn">
@@ -141,48 +140,7 @@
         </div>
     </div>
 
-    <!-- FATWA MODAL -->
-    <div id="fatwa-modal" class="modal">
-        <div class="modal-content glass-modal">
-            <span class="close-modal">&times;</span>
-            <div class="modal-header">
-                <h2 class="urdu-title-gold">دار الافتاء</h2>
-                <h3 class="modal-subtitle">Ask a Question</h3>
-            </div>
-            
-            <div id="modal-form-container">
-                <form id="fatwa-form">
-                    <div class="form-group">
-                        <label for="fatwa-name">Full Name</label>
-                        <input type="text" id="fatwa-name" name="name" placeholder="Ahmad Khan" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="fatwa-email">Email Address</label>
-                            <input type="email" id="fatwa-email" name="email" placeholder="example@mail.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="fatwa-whatsapp">WhatsApp Number</label>
-                            <input type="text" id="fatwa-whatsapp" name="whatsapp" placeholder="+91 1234567890">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="fatwa-question">Your Question / Fatwa</label>
-                        <textarea id="fatwa-question" name="question" rows="4" placeholder="Write your question here..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit-gold" id="fatwa-submit">
-                        <span class="btn-text">إرسال (Submit)</span>
-                        <div class="spinner" id="submit-spinner"></div>
-                    </button>
-                </form>
-            </div>
-
-            <div id="modal-status-container" class="status-container">
-                <!-- Status content injected via JS -->
-            </div>
-        </div>
-    </div>
+    <!-- FATWA MODAL REMOVED (Handled by main app) -->
 
     <!-- NOTIFICATION -->
     <div id="ui-notification" class="ui-notification"></div>
