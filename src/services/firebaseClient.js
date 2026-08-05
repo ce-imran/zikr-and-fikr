@@ -3,13 +3,16 @@ import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { fetchJson } from './api';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSy_demo_key_placeholder",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "daily-islamic-reflections.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "daily-islamic-reflections",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "daily-islamic-reflections.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "100000000000",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:100000000000:web:abcdef123456"
+  apiKey: "AIzaSyCpEf_A-_WDncCDci0mmCWsjipCM8lDwJk",
+  authDomain: "zikr-and-fikr-18041.firebaseapp.com",
+  projectId: "zikr-and-fikr-18041",
+  storageBucket: "zikr-and-fikr-18041.firebasestorage.app",
+  messagingSenderId: "697784531043",
+  appId: "1:697784531043:web:4cd894ba8cd1d02ca02056",
+  measurementId: "G-DYZFJN8CN6"
 };
+
+const hardcodedVapidKey = "BL3vdh6XUPFtAoFFRYO6fgNIUAAteSouJuPcB_yPDaWGgzGYItiC5_KQMTuIKbl8ckH-6mMD8aeunosKvMEJkIo";
 
 let app = null;
 let messaging = null;
@@ -34,7 +37,7 @@ export async function requestFcmTokenAndSubscribe() {
   }
 
   try {
-    const rawVapidKey = import.meta.env.VITE_FIREBASE_VAPID_KEY || import.meta.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY;
+    const rawVapidKey = hardcodedVapidKey;
     console.log("Checking VAPID Key length:", rawVapidKey ? rawVapidKey.length : "UNDEFINED");
     
     if (!rawVapidKey) {

@@ -4,12 +4,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-comp
 
 // Firebase Project Credentials Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSy_demo_key_placeholder",
-  authDomain: "daily-islamic-reflections.firebaseapp.com",
-  projectId: "daily-islamic-reflections",
-  storageBucket: "daily-islamic-reflections.appspot.com",
-  messagingSenderId: "100000000000",
-  appId: "1:100000000000:web:abcdef123456"
+  apiKey: "AIzaSyCpEf_A-_WDncCDci0mmCWsjipCM8lDwJk",
+  authDomain: "zikr-and-fikr-18041.firebaseapp.com",
+  projectId: "zikr-and-fikr-18041",
+  storageBucket: "zikr-and-fikr-18041.firebasestorage.app",
+  messagingSenderId: "697784531043",
+  appId: "1:697784531043:web:4cd894ba8cd1d02ca02056",
+  measurementId: "G-DYZFJN8CN6"
 };
 
 try {
