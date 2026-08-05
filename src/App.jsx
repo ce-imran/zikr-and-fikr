@@ -16,6 +16,7 @@ import QazaTracker from './pages/QazaTracker';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import { fetchJson } from './services/api';
+import { requestPushPermissionAndSubscribe } from './services/pushService';
 
 function AppContent({ authState, setAuthState }) {
   const location = useLocation();
@@ -103,6 +104,15 @@ export default function App() {
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
+  }, []);
+
+  useEffect(() => {
+    // Silently sync push token if permission is already granted
+    if ('Notification' in window && Notification.permission === 'granted') {
+      requestPushPermissionAndSubscribe().catch(() => {
+        // Silently fail if network error or VAPID key missing
+      });
+    }
   }, []);
 
   return (
