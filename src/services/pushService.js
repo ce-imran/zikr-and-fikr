@@ -25,37 +25,53 @@ export async function requestPushPermissionAndSubscribe() {
     throw new Error('Push notification permission was denied.');
   }
 
-  try {
-    const keyData = await fetchJson('/notifications/vapid-public-key');
-    if (!keyData.success || !keyData.publicKey) {
-      throw new Error('Failed to retrieve VAPID public key from server.');
+    // 1. Attempt Web Push Subscription First
+    let webPushSuccess = false;
+    try {
+      const keyData = await fetchJson('/notifications/vapid-public-key');
+      if (keyData.success && keyData.publicKey) {
+        const registration = await navigator.serviceWorker.ready;
+        let subscription = await registration.pushManager.getSubscription();
+
+        if (!subscription) {
+          const convertedVapidKey = urlBase64ToUint8Array(keyData.publicKey);
+          subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedVapidKey
+          });
+        }
+
+        // Save Web Push Subscription to server
+        await fetchJson('/notifications/subscribe', {
+          method: 'POST',
+          body: JSON.stringify({
+            endpoint: subscription.endpoint,
+            keys: {
+              p256dh: subscription.toJSON().keys.p256dh,
+              auth: subscription.toJSON().keys.auth
+            }
+          })
+        });
+        webPushSuccess = true;
+      }
+    } catch (webPushErr) {
+      console.warn('Web Push fallback notice:', webPushErr.message);
     }
 
-    const registration = await navigator.serviceWorker.ready;
-    let subscription = await registration.pushManager.getSubscription();
-
-    if (!subscription) {
-      const convertedVapidKey = urlBase64ToUint8Array(keyData.publicKey);
-      subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: convertedVapidKey
-      });
-    }
-
-    // Save Web Push Subscription to server
-    await fetchJson('/notifications/subscribe', {
-      method: 'POST',
-      body: JSON.stringify(subscription)
-    });
-
-    // Optionally attempt Firebase FCM subscription if configured
+    // 2. Attempt Firebase FCM subscription
+    let fcmSuccess = false;
     try {
       await requestFcmTokenAndSubscribe();
+      fcmSuccess = true;
     } catch (fcmErr) {
       console.warn('FCM fallback notice:', fcmErr.message);
     }
 
-    return subscription;
+    if (!webPushSuccess && !fcmSuccess) {
+      throw new Error('Both Web Push and Firebase Cloud Messaging failed to subscribe.');
+    }
+
+    return true;
   } catch (err) {
     console.error('Error subscribing to push notifications:', err);
     throw err;
