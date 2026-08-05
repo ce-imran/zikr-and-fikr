@@ -57,7 +57,7 @@
 
 /* Single Post Reading Typography */
 .prose-reading {
-  font-family: 'Jameel Noori Nastaleeq Regular', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', 'Jameel Noori Nastaleeq Regular', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1.25rem; /* Slightly larger base size for Nastaleeq legibility */
   line-height: 2.5; /* Increased line-height for Nastaleeq */
   color: #24292f;
@@ -73,7 +73,6 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: normal;
-  white-space: normal;
 }
 
 .dark .prose-reading {
@@ -81,7 +80,7 @@
 }
 
 .prose-reading h1, .prose-reading h2, .prose-reading h3 {
-  font-family: 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif;
+  font-family: 'Inter', 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif;
   color: #24292f;
   font-weight: normal; /* Nastaleeq fonts usually handle thickness implicitly */
   margin-top: 1.75em;
@@ -89,7 +88,7 @@
 }
 
 .font-nastaleeq-title {
-  font-family: 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif !important;
+  font-family: 'Inter', 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif !important;
   font-weight: normal !important;
 }
 
@@ -137,7 +136,7 @@
 
 /* Make Quill Editor match Frontend Prose Reading styles */
 .rich-text-editor-container .ql-editor {
-  font-family: 'Jameel Noori Nastaleeq Regular', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', 'Jameel Noori Nastaleeq Regular', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1.25rem;
   line-height: 2.5;
   color: #24292f;
@@ -152,7 +151,7 @@
 .rich-text-editor-container .ql-editor h1,
 .rich-text-editor-container .ql-editor h2,
 .rich-text-editor-container .ql-editor h3 {
-  font-family: 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif;
+  font-family: 'Inter', 'Jameel Noori Nastaleeq Kasheeda', 'Amiri', serif;
   font-weight: normal;
   margin-top: 1.75em;
   margin-bottom: 0.75em;
